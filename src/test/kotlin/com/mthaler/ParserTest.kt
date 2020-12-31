@@ -20,4 +20,16 @@ class ParserTest: StringSpec({
         p("foobar") shouldBe Result.OK(Unit, "bar")
         p("boofar") shouldBe Result.Err("'foo'", "boofar")
     }
+
+    "seq" {
+        val p = seq(::integer, string("foo"))
+        p("123foo") shouldBe Result.OK(Pair(123, Unit), "")
+    }
+
+    "choice" {
+        val p = choice(string("foo"), string("bar"))
+        p("foobar") shouldBe Result.OK(Unit, "bar")
+        p("barfoo") shouldBe Result.OK(Unit, "foo")
+        p("xyz") shouldBe Result.Err("'foo' or 'bar'", "xyz")
+    }
 })

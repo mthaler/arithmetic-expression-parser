@@ -30,3 +30,48 @@ fun string(s: String): Parser<Unit > = { input ->
     else
         Result.Err("'$s'", input)
 }
+
+fun quotedString(input: String): Result<String> {
+    if (input.isEmpty() || input[0] != '"') {
+        return Result.Err("a quoted string", input)
+    }
+
+    var escaped = false
+    var string = ""
+    for (i in 1 until input.length) {
+        val c = input[i]
+        when {
+            c == '"' && !escaped ->
+                return Result.OK(string, input.substring(i + 1))
+            c == '\\' && !escaped ->
+                escaped = true
+            else -> {
+                if (escaped) string += '\\'
+                escaped = false
+                string += c
+            }
+        }
+    }
+
+    return Result.Err("a terminated quoted string", input)
+}
+
+fun whitespace(input: String): Result<Unit> {
+    for (i in input.indices) {
+        if (!input[i].isWhitespace()) {
+            return Result.OK(Unit, input.substring(i))
+        }
+    }
+    return Result.OK(Unit, input)
+}
+
+fun <T1, T2> seq(p1: Parser<T1>, p2: Parser<T2>): Parser<Pair<T1, T2>> = { input ->
+    p1(input).flatMap { r1, rest -> p2(rest).map { r2 -> Pair(r1, r2) } }
+}
+
+fun <T> choice(p1: Parser<T>, p2: Parser<T>): Parser<T> = { input ->
+    when(val r1 = p1(input)) {
+        is Result.OK -> r1
+        is Result.Err -> p2(input).mapExpected { e ->  "${r1.expected} or $e" }
+    }
+}
