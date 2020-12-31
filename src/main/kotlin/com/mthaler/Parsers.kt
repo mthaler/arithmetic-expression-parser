@@ -1,5 +1,7 @@
 package com.mthaler
 
+typealias Parser<T> = (String) -> Result<T>
+
 fun dot(input: String): Result<Unit> =
     if (input.startsWith("."))
         Result.OK(Unit, input.substring(1))
@@ -20,4 +22,11 @@ fun integer(input: String): Result<Int> {
         }
         return Result.OK(value, "")
     }
+}
+
+fun string(s: String): Parser<Unit > = { input ->
+    if (input.startsWith(s))
+        Result.OK(Unit, input.substring(s.length))
+    else
+        Result.Err("'$s'", input)
 }

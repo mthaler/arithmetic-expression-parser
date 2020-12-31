@@ -14,4 +14,10 @@ class ParserTest: StringSpec({
         integer("123foo") shouldBe Result.OK(123, "foo")
         integer("foo") shouldBe Result.Err("an integer", "foo")
     }
+
+    "string" {
+        val p = string("foo")
+        p("foobar") shouldBe Result.OK(Unit, "bar")
+        p("boofar") shouldBe Result.Err("'foo'", "boofar")
+    }
 })
