@@ -9,4 +9,9 @@ class ParserTest: StringSpec({
         dot(".foo") shouldBe Result.OK(Unit, "foo")
         dot("foo") shouldBe Result.Err("a dot", "foo")
     }
+
+    "integer" {
+        integer("123foo") shouldBe Result.OK(123, "foo")
+        integer("foo") shouldBe Result.Err("an integer", "foo")
+    }
 })
