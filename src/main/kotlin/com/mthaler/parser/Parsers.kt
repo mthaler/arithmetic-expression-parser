@@ -31,18 +31,21 @@ fun whitespace(input: String): Result<Unit> {
     }
 }
 
-fun integer(input: String): Result<Int> {
-    if (input.isEmpty() || !input[0].isDigit()) {
-        return Result.Err("an integer", input)
+fun digits(input: String): Result<String> {
+    if (input.isEmpty()) {
+        return Result.Err("empty input", input)
+    } else if (!input[0].isDigit()) {
+        return Result.Err("not a digit", input)
     } else {
-        var value = 0
-        for (i in input.indices) {
-            if (input[i].isDigit()) {
-                value = (value * 10) + (input[i] - '0')
-            } else {
-                return Result.OK(value, input.substring(i))
-            }
+        val sb = StringBuffer()
+        sb.append(input[0])
+        for (i in 1 until input.length) {
+            val c = input[i]
+            if (c.isDigit())
+                sb.append(c)
+            else
+                return Result.OK(sb.toString(), input.substring(i))
         }
-        return Result.OK(value, "")
+        return Result.OK(sb.toString(), "")
     }
 }
