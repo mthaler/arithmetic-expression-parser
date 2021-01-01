@@ -1,71 +1,10 @@
-package com.mthaler.parser
+package com.mthaler
 
-import com.mthaler.Result
+import com.mthaler.parser.Result
 
 typealias Parser<T> = (String) -> Result<T>
 
-val numberRegex = Regex("^\\d+(\\.\\d*)?([eE][+-]?\\d+)?")
-
-fun charLiteral(c: Char): Parser<Char> = { input ->
-    if (input.startsWith(c))
-        Result.OK(c, input.substring(1))
-    else
-        Result.Err("a '$c'", input)
-}
-
-fun stringLiteral(s: String): Parser<String> = { input ->
-    if (input.startsWith(s))
-        Result.OK(s, input.substring(s.length))
-    else
-        Result.Err("'$s'", input)
-}
-
-fun whitespace(input: String): Result<Unit> {
-    if (input.isEmpty()) {
-        return Result.Err("whitespaces", input)
-    } else if (!input[0].isWhitespace()) {
-        return Result.Err("whitespaces", input)
-    } else {
-        for (i in 1 until input.length) {
-            if (!input[i].isWhitespace()) {
-                return Result.OK(Unit, input.substring(i))
-            }
-        }
-        return Result.OK(Unit, input)
-    }
-}
-
-fun digits(input: String): Result<String> {
-    if (input.isEmpty()) {
-        return Result.Err("digits", input)
-    } else if (!input[0].isDigit()) {
-        return Result.Err("digits", input)
-    } else {
-        val sb = StringBuffer()
-        sb.append(input[0])
-        for (i in 1 until input.length) {
-            val c = input[i]
-            if (c.isDigit())
-                sb.append(c)
-            else
-                return Result.OK(sb.toString(), input.substring(i))
-        }
-        return Result.OK(sb.toString(), "")
-    }
-}
-
-fun number(input: String): Result<String> {
-    if (input.isEmpty()) {
-        return Result.Err("number", input)
-    } else {
-        val m = numberRegex.find(input)
-        if (m != null) {
-            return Result.OK(m.value, input.substring(m.range.endInclusive + 1))
-        } else {
-            return Result.Err("number", input)
-        }
-    }
-}
+// combinators
 
 fun <T1, T2> sequence(p1: Parser<T1>, p2: Parser<T2>): Parser<Pair<T1, T2>> = { input ->
     p1(input).flatMap { r1, rest -> p2(rest).map { r2 -> Pair(r1, r2) } }

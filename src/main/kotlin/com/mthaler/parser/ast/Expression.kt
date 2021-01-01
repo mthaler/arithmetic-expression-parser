@@ -1,4 +1,4 @@
-package com.mthaler.ast
+package com.mthaler.parser.ast
 
 sealed class Expression {
 

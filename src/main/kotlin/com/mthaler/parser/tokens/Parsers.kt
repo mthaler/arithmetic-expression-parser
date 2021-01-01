@@ -1,6 +1,6 @@
 package com.mthaler.tokens
 
-import com.mthaler.Result
+import com.mthaler.parser.Result
 
 typealias TokenParser<T> = (String) -> Result<String>
 
