@@ -21,7 +21,7 @@ class ParsersTest: StringSpec({
         whitespace(" 123") shouldBe Result.OK(Unit, "123")
         whitespace("  123") shouldBe Result.OK(Unit, "123")
         whitespace(" \t123") shouldBe Result.OK(Unit, "123")
-        whitespace("123") shouldBe Result.Err("not a whitespace", "123")
+        whitespace("123") shouldBe Result.Err("whitespaces", "123")
     }
 
     "digits" {
@@ -29,7 +29,17 @@ class ParsersTest: StringSpec({
         digits("12") shouldBe Result.OK("12", "")
         digits("123") shouldBe Result.OK("123", "")
         digits("123foo") shouldBe Result.OK("123", "foo")
-        digits("foo") shouldBe Result.Err("not a digit", "foo")
+        digits("foo") shouldBe Result.Err("digits", "foo")
+    }
+
+    "number" {
+        number("123") shouldBe Result.OK("123", "")
+        number("123foo") shouldBe Result.OK("123", "foo")
+        number("3.14") shouldBe Result.OK("3.14", "")
+        number("3.14foo") shouldBe Result.OK("3.14", "foo")
+        number("foo") shouldBe Result.Err("number", "foo")
+        number("foo123") shouldBe Result.Err("number", "foo123")
+
     }
 
     "sequence" {

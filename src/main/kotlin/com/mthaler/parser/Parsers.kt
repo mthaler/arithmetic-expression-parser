@@ -2,6 +2,8 @@ package com.mthaler.parser
 
 typealias Parser<T> = (String) -> Result<T>
 
+val numberRegex = Regex("^\\d+(\\.\\d*)?([eE][+-]?\\d+)?")
+
 fun charLiteral(c: Char): Parser<Char> = { input ->
     if (input.startsWith(c))
         Result.OK(c, input.substring(1))
@@ -18,9 +20,9 @@ fun stringLiteral(s: String): Parser<String> = { input ->
 
 fun whitespace(input: String): Result<Unit> {
     if (input.isEmpty()) {
-        return Result.Err("empty input", input)
+        return Result.Err("whitespaces", input)
     } else if (!input[0].isWhitespace()) {
-        return Result.Err("not a whitespace", input)
+        return Result.Err("whitespaces", input)
     } else {
         for (i in 1 until input.length) {
             if (!input[i].isWhitespace()) {
@@ -33,9 +35,9 @@ fun whitespace(input: String): Result<Unit> {
 
 fun digits(input: String): Result<String> {
     if (input.isEmpty()) {
-        return Result.Err("empty input", input)
+        return Result.Err("digits", input)
     } else if (!input[0].isDigit()) {
-        return Result.Err("not a digit", input)
+        return Result.Err("digits", input)
     } else {
         val sb = StringBuffer()
         sb.append(input[0])
@@ -47,6 +49,19 @@ fun digits(input: String): Result<String> {
                 return Result.OK(sb.toString(), input.substring(i))
         }
         return Result.OK(sb.toString(), "")
+    }
+}
+
+fun number(input: String): Result<String> {
+    if (input.isEmpty()) {
+        return Result.Err("number", input)
+    } else {
+        val m = numberRegex.find(input)
+        if (m != null) {
+            return Result.OK(m.value, input.substring(m.range.endInclusive + 1))
+        } else {
+            return Result.Err("number", input)
+        }
     }
 }
 
