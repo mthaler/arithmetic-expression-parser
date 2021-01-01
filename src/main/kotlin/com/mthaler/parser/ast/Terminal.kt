@@ -2,11 +2,7 @@ package com.mthaler.parser.ast
 
 sealed class Terminal {
 
-    data class Number(val value: kotlin.Number): Terminal()
-
-    object Plus: Terminal(), BinaryOperator
-    object Minus: Terminal(), BinaryOperator
-    object Times: Terminal(), BinaryOperator
-    object Div: Terminal(), BinaryOperator
+    data class Number(val value: Double) : Terminal()
+    data class BinaryOperator(val operator: String) : Terminal()
 }
 

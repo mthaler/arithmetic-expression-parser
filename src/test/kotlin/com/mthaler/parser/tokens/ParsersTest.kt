@@ -10,7 +10,7 @@ class ParsersTest: StringSpec({
     "charLiteral" {
         val p = charLiteral('.')
         p(".foo") shouldBe Result.OK(".", "foo")
-        p("foo") shouldBe Result.Err("a '.'", "foo")
+        p("foo") shouldBe Result.Err("'.'", "foo")
     }
 
     "stringLiteral" {

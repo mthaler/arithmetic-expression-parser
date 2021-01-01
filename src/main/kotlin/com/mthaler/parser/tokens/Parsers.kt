@@ -10,7 +10,7 @@ fun charLiteral(c: Char): TokenParser = { input ->
     if (input.startsWith(c))
         Result.OK(c.toString(), input.substring(1))
     else
-        Result.Err("a '$c'", input)
+        Result.Err("'$c'", input)
 }
 
 fun stringLiteral(s: String): TokenParser = { input ->
