@@ -49,3 +49,7 @@ fun digits(input: String): Result<String> {
         return Result.OK(sb.toString(), "")
     }
 }
+
+fun <T1, T2> seq(p1: Parser<T1>, p2: Parser<T2>): Parser<Pair<T1, T2>> = { input ->
+    p1(input).flatMap { r1, rest -> p2(rest).map { r2 -> Pair(r1, r2) } }
+}

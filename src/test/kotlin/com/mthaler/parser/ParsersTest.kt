@@ -31,4 +31,9 @@ class ParsersTest: StringSpec({
         digits("123foo") shouldBe Result.OK("123", "foo")
         digits("foo") shouldBe Result.Err("not a digit", "foo")
     }
+
+    "seq" {
+        val p = seq(::digits, stringLiteral("foo"))
+        p("123foo") shouldBe Result.OK(Pair("123", "foo"), "")
+    }
 })
