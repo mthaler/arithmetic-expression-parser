@@ -1,6 +1,4 @@
-package com.mthaler
-
-import com.mthaler.parser.Result
+package com.mthaler.parser
 
 typealias Parser<T> = (String) -> Result<T>
 

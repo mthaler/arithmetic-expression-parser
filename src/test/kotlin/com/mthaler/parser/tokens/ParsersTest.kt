@@ -1,8 +1,7 @@
 package com.mthaler.parser.tokens
 
 import com.mthaler.parser.Result
-import com.mthaler.*
-import com.mthaler.tokens.*
+import com.mthaler.parser.*
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
@@ -21,11 +20,11 @@ class ParsersTest: StringSpec({
     }
 
     "whitespaces" {
-        whitespace(" ") shouldBe Result.OK(" ", "")
-        whitespace(" 123") shouldBe Result.OK(" ", "123")
-        whitespace("  123") shouldBe Result.OK("  ", "123")
-        whitespace(" \t123") shouldBe Result.OK(" \t", "123")
-        whitespace("123") shouldBe Result.Err("whitespaces", "123")
+        whitespaces(" ") shouldBe Result.OK(" ", "")
+        whitespaces(" 123") shouldBe Result.OK(" ", "123")
+        whitespaces("  123") shouldBe Result.OK("  ", "123")
+        whitespaces(" \t123") shouldBe Result.OK(" \t", "123")
+        whitespaces("123") shouldBe Result.Err("whitespaces", "123")
     }
 
     "digits" {

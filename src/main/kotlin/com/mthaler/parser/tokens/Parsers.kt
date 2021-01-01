@@ -1,27 +1,26 @@
-package com.mthaler.tokens
+package com.mthaler.parser.tokens
 
 import com.mthaler.parser.Result
 
-typealias TokenParser<T> = (String) -> Result<String>
+typealias TokenParser = (String) -> Result<String>
 
 val numberRegex = Regex("^\\d+(\\.\\d*)?([eE][+-]?\\d+)?")
 
-fun charLiteral(c: Char): TokenParser<Char> = { input ->
+fun charLiteral(c: Char): TokenParser = { input ->
     if (input.startsWith(c))
         Result.OK(c.toString(), input.substring(1))
     else
         Result.Err("a '$c'", input)
 }
 
-fun stringLiteral(s: String): TokenParser<String> = { input ->
+fun stringLiteral(s: String): TokenParser = { input ->
     if (input.startsWith(s))
         Result.OK(s, input.substring(s.length))
     else
         Result.Err("'$s'", input)
 }
 
-
-fun whitespace(input: String): Result<String> {
+fun whitespaces(input: String): Result<String> {
     if (input.isEmpty()) {
         return Result.Err("whitespaces", input)
     } else if (!input[0].isWhitespace()) {
