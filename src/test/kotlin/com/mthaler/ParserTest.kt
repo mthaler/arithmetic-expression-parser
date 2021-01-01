@@ -1,5 +1,6 @@
 package com.mthaler
 
+import com.mthaler.parser.Result
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 

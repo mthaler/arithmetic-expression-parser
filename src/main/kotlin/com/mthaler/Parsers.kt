@@ -1,5 +1,7 @@
 package com.mthaler
 
+import com.mthaler.parser.Result
+
 typealias Parser<T> = (String) -> Result<T>
 
 fun dot(input: String): Result<Unit> =

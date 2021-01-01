@@ -1,4 +1,4 @@
-package com.mthaler
+package com.mthaler.ast
 
 sealed class Terminal {
 
