@@ -48,4 +48,11 @@ class ParsersTest: StringSpec({
         p("barfoo") shouldBe Result.OK(2, "foo")
         p("xyz") shouldBe Result.Err("'foo' or 'bar'", "xyz")
     }
+
+    "or" {
+        val p = stringLiteral("foo").means(1) or stringLiteral("bar").means(2)
+        p("foobar") shouldBe Result.OK(1, "bar")
+        p("barfoo") shouldBe Result.OK(2, "foo")
+        p("xyz") shouldBe Result.Err("'foo' or 'bar'", "xyz")
+    }
 })
