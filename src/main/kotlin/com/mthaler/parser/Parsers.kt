@@ -22,6 +22,22 @@ fun <T> optional(p: Parser<T>): Parser<T?> = { input ->
     }
 }
 
+fun <T> zeroOrMore(p: Parser<T>): Parser<List<T>> = { input ->
+    var t = input
+    var done = false
+    val result = ArrayList<T>()
+    while(!done) {
+        when(val r = p(t)) {
+            is Result.OK -> {
+                result.add(r.value)
+                t = r.rest
+            }
+            is Result.Err -> done = true
+        }
+    }
+    Result.OK(result, t)
+}
+
 fun <T, U> Parser<T>.map(f: (T) -> U): Parser<U> = { input ->
     this(input).map(f)
 }

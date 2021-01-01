@@ -9,7 +9,9 @@ class ParsersTest: StringSpec({
     "number" {
         number("123") shouldBe Result.OK(Terminal.Number(123.0), "")
         number("123foo") shouldBe Result.OK(Terminal.Number(123.0), "foo")
+        number("123 foo") shouldBe Result.OK(Terminal.Number(123.0), "foo")
         number("3.14") shouldBe Result.OK(Terminal.Number(3.14), "")
+        number(" 3.14 ") shouldBe Result.OK(Terminal.Number(3.14), "")
         number("3.14foo") shouldBe Result.OK(Terminal.Number(3.14), "foo")
         number("foo") shouldBe Result.Err("number", "foo")
         number("foo123") shouldBe Result.Err("number", "foo123")
@@ -23,7 +25,8 @@ class ParsersTest: StringSpec({
 
     "-" {
         minus("-") shouldBe Result.OK(Terminal.BinaryOperator("-"), "")
-        minus("- 5") shouldBe Result.OK(Terminal.BinaryOperator("-"), " 5")
+        minus(" - ") shouldBe Result.OK(Terminal.BinaryOperator("-"), "")
+        minus("- 5") shouldBe Result.OK(Terminal.BinaryOperator("-"), "5")
         minus("foo") shouldBe Result.Err("'-'", "foo")
     }
 
@@ -31,5 +34,8 @@ class ParsersTest: StringSpec({
         val e = expression()
         e("3.14") shouldBe Result.OK(Expression.Number(3.14), "")
         e("3+4") shouldBe Result.OK(Expression.BinOp(Expression.Number(3.0), Expression.Number(4.0), Terminal.BinaryOperator("+")), "")
+        e("3 + 4") shouldBe Result.OK(Expression.BinOp(Expression.Number(3.0), Expression.Number(4.0), Terminal.BinaryOperator("+")), "")
+        //e("3 + 4 + 5") shouldBe Result.OK(Expression.BinOp(Expression.Number(3.0), Expression.Number(4.0), Terminal.BinaryOperator("+")), "")
+        //e("(3 + 4)") shouldBe Result.OK(Expression.BinOp(Expression.Number(3.0), Expression.Number(4.0), Terminal.BinaryOperator("+")), "")
     }
 })
