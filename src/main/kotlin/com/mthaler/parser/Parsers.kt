@@ -1,5 +1,7 @@
 package com.mthaler.parser
 
+import com.mthaler.Result
+
 typealias Parser<T> = (String) -> Result<T>
 
 val numberRegex = Regex("^\\d+(\\.\\d*)?([eE][+-]?\\d+)?")
