@@ -90,7 +90,7 @@ fun <T, U> Parser<T>.map(f: (T) -> U): Parser<U> = { input ->
 fun <T, U> Parser<T>.means(u: U): Parser<U> = map { u }
 
 infix fun <T1, T2> Parser<T1>.and(p2: Parser<T2>): Parser<Pair<T1, T2>> =
-    com.mthaler.seq(this, p2)
+    sequence(this, p2)
 
 infix fun <T> Parser<T>.or(p2: Parser<T>): Parser<T> =
     orderedChoice(this, p2)
