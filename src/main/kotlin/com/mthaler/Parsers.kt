@@ -75,3 +75,24 @@ fun <T> choice(p1: Parser<T>, p2: Parser<T>): Parser<T> = { input ->
         is Result.Err -> p2(input).mapExpected { e ->  "${r1.expected} or $e" }
     }
 }
+
+fun <T, U> Parser<T>.map(f: (T) -> U): Parser<U> = { input ->
+    this(input).map(f)
+}
+
+fun <T, U> Parser<T>.means(u: U): Parser<U> = map { u }
+
+infix fun <T1, T2> Parser<T1>.then(p2: Parser<T2>): Parser<Pair<T1, T2>> =
+    seq(this, p2)
+
+infix fun <T> Parser<T>.or(p2: Parser<T>): Parser<T> =
+    choice(this, p2)
+
+fun <X, T> Parser<X>.before(p: Parser<T>): Parser<T> =
+    seq(this, p).map { it.second }
+
+fun <T, Y> Parser<T>.followedBy(y: Parser<Y>): Parser<T> =
+    seq(this, y).map { it.first }
+
+fun <X, T, Y> Parser<T>.between(x: Parser<X>, y: Parser<Y>): Parser<T> =
+    x.before(this).followedBy(y)

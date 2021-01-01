@@ -26,10 +26,37 @@ class ParserTest: StringSpec({
         p("123foo") shouldBe Result.OK(Pair(123, Unit), "")
     }
 
+    "then" {
+        val p = ::integer then string("foo")
+        p("123foo") shouldBe Result.OK(Pair(123, Unit), "")
+    }
+
     "choice" {
-        val p = choice(string("foo"), string("bar"))
-        p("foobar") shouldBe Result.OK(Unit, "bar")
-        p("barfoo") shouldBe Result.OK(Unit, "foo")
+        val p = choice(string("foo").means(1), string("bar").means(2))
+        p("foobar") shouldBe Result.OK(1, "bar")
+        p("barfoo") shouldBe Result.OK(2, "foo")
         p("xyz") shouldBe Result.Err("'foo' or 'bar'", "xyz")
+    }
+
+    "or" {
+        val p = string("foo").means(1) or string("bar").means(2)
+        p("foobar") shouldBe Result.OK(1, "bar")
+        p("barfoo") shouldBe Result.OK(2, "foo")
+        p("xyz") shouldBe Result.Err("'foo' or 'bar'", "xyz")
+    }
+
+    "before" {
+        val p = string("*").before(::integer)
+        p("*123") shouldBe Result.OK(123, "")
+    }
+
+    "followedBy" {
+        val p = ::integer.followedBy(string("%"))
+        p("123%") shouldBe Result.OK(123, "")
+    }
+
+    "between" {
+        val p = ::integer.between(string("<"), string(">"))
+        p("<123>") shouldBe Result.OK(123, "")
     }
 })
