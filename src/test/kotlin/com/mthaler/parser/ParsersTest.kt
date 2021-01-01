@@ -23,4 +23,11 @@ class ParsersTest: StringSpec({
         whitespace(" \t123") shouldBe Result.OK(Unit, "123")
         whitespace("123") shouldBe Result.Err("not a whitespace", "123")
     }
+
+    "integer" {
+        integer("1+2") shouldBe Result.OK(1, "+2")
+        integer("12") shouldBe Result.OK(12, "")
+        integer("123foo") shouldBe Result.OK(123, "foo")
+        integer("foo") shouldBe Result.Err("an integer", "foo")
+    }
 })
