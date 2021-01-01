@@ -38,6 +38,33 @@ fun <T> zeroOrMore(p: Parser<T>): Parser<List<T>> = { input ->
     Result.OK(result, t)
 }
 
+fun <T> oneOrMore(p: Parser<T>): Parser<List<T>> = { input ->
+
+    var t = input
+    var done = false
+    val result = ArrayList<T>()
+    var err: Result.Err? = null
+
+    while (!done) {
+        when (val r = p(t)) {
+            is Result.OK -> {
+                result.add(r.value)
+                t = r.rest
+            }
+            is Result.Err -> {
+                if (result.isEmpty())
+                err = r
+                done = true
+            }
+        }
+    }
+    if (err != null) {
+        err
+    } else {
+        Result.OK(result, t)
+    }
+}
+
 fun <T, U> Parser<T>.map(f: (T) -> U): Parser<U> = { input ->
     this(input).map(f)
 }

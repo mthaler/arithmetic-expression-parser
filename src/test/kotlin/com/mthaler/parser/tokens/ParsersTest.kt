@@ -84,4 +84,15 @@ class ParsersTest: StringSpec({
         p(" 3.14 foo") shouldBe Result.OK(listOf("3.14"), "foo")
         p("3 4 5") shouldBe Result.OK(listOf("3", "4", "5"), "")
     }
+
+    "oneOrMore" {
+        val ws = optional(::whitespaces)
+        val n = (ws and ::number and ws).map { it.middle() }
+        val p = oneOrMore(n)
+        p("foo") shouldBe Result.Err("number", "foo")
+        p("3.14") shouldBe Result.OK(listOf("3.14"), "")
+        p(" 3.14 ") shouldBe Result.OK(listOf("3.14"), "")
+        p(" 3.14 foo") shouldBe Result.OK(listOf("3.14"), "foo")
+        p("3 4 5") shouldBe Result.OK(listOf("3", "4", "5"), "")
+    }
 })
