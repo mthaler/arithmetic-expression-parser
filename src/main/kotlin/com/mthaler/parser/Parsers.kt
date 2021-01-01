@@ -76,6 +76,12 @@ fun <T> orderedChoice(p1: Parser<T>, p2: Parser<T>): Parser<T> = { input ->
     }
 }
 
+fun <T> optional(p: Parser<T>): Parser<T?> = { input ->
+    when(val r = p(input)) {
+        is Result.OK -> r
+        is Result.Err -> Result.OK(null, input)
+    }
+}
 
 fun <T, U> Parser<T>.map(f: (T) -> U): Parser<U> = { input ->
     this(input).map(f)

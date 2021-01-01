@@ -65,4 +65,10 @@ class ParsersTest: StringSpec({
         p("barfoo") shouldBe Result.OK(2, "foo")
         p("xyz") shouldBe Result.Err("'foo' or 'bar'", "xyz")
     }
+
+    "optional" {
+        val p = optional(stringLiteral("foo"))
+        p("foo") shouldBe Result.OK("foo", "")
+        p("bar") shouldBe Result.OK(null, "bar")
+    }
 })
