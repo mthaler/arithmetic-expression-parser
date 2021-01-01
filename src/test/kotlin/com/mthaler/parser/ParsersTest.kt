@@ -1,7 +1,5 @@
 package com.mthaler.parser
 
-import com.mthaler.integer
-import com.mthaler.string
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
@@ -34,13 +32,20 @@ class ParsersTest: StringSpec({
         digits("foo") shouldBe Result.Err("not a digit", "foo")
     }
 
-    "seq" {
-        val p = seq(::digits, stringLiteral("foo"))
+    "sequence" {
+        val p = sequence(::digits, stringLiteral("foo"))
         p("123foo") shouldBe Result.OK(Pair("123", "foo"), "")
     }
 
     "and" {
-        val p = ::integer and string("foo")
-        p("123foo") shouldBe Result.OK(Pair(123, Unit), "")
+        val p = ::digits and stringLiteral("foo")
+        p("123foo") shouldBe Result.OK(Pair("123", "foo"), "")
+    }
+
+    "orderedChoice" {
+        val p = orderedChoice(stringLiteral("foo").means(1), stringLiteral("bar").means(2))
+        p("foobar") shouldBe Result.OK(1, "bar")
+        p("barfoo") shouldBe Result.OK(2, "foo")
+        p("xyz") shouldBe Result.Err("'foo' or 'bar'", "xyz")
     }
 })

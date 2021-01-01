@@ -50,8 +50,15 @@ fun digits(input: String): Result<String> {
     }
 }
 
-fun <T1, T2> seq(p1: Parser<T1>, p2: Parser<T2>): Parser<Pair<T1, T2>> = { input ->
+fun <T1, T2> sequence(p1: Parser<T1>, p2: Parser<T2>): Parser<Pair<T1, T2>> = { input ->
     p1(input).flatMap { r1, rest -> p2(rest).map { r2 -> Pair(r1, r2) } }
+}
+
+fun <T> orderedChoice(p1: Parser<T>, p2: Parser<T>): Parser<T> = { input ->
+    when(val r1 = p1(input)) {
+        is Result.OK -> r1
+        is Result.Err -> p2(input).mapExpected { e ->  "${r1.expected} or $e" }
+    }
 }
 
 
