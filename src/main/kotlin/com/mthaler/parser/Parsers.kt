@@ -15,3 +15,18 @@ fun stringLiteral(s: String): Parser<String> = { input ->
     else
         Result.Err("'$s'", input)
 }
+
+fun whitespace(input: String): Result<Unit> {
+    if (input.isEmpty()) {
+        return Result.Err("empty input", input)
+    } else if (!input[0].isWhitespace()) {
+        return Result.Err("not a whitespace", input)
+    } else {
+        for (i in 1 until input.length) {
+            if (!input[i].isWhitespace()) {
+                return Result.OK(Unit, input.substring(i))
+            }
+        }
+        return Result.OK(Unit, input)
+    }
+}

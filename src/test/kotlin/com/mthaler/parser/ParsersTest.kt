@@ -16,4 +16,11 @@ class ParsersTest: StringSpec({
         p("foobar") shouldBe Result.OK("foo", "bar")
         p("boofar") shouldBe Result.Err("'foo'", "boofar")
     }
+
+    "whitespaces" {
+        whitespace(" 123") shouldBe Result.OK(Unit, "123")
+        whitespace("  123") shouldBe Result.OK(Unit, "123")
+        whitespace(" \t123") shouldBe Result.OK(Unit, "123")
+        whitespace("123") shouldBe Result.Err("not a whitespace", "123")
+    }
 })
