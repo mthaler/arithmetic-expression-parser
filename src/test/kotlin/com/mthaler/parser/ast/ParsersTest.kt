@@ -20,4 +20,10 @@ class ParsersTest: StringSpec({
         plus("+ 5") shouldBe Result.OK(Terminal.BinaryOperator("+"), " 5")
         plus("foo") shouldBe Result.Err("'+'", "foo")
     }
+
+    "-" {
+        minus("-") shouldBe Result.OK(Terminal.BinaryOperator("-"), "")
+        minus("- 5") shouldBe Result.OK(Terminal.BinaryOperator("-"), " 5")
+        minus("foo") shouldBe Result.Err("'-'", "foo")
+    }
 })

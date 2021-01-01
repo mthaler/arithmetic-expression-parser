@@ -10,3 +10,4 @@ typealias ExpressionParser = (String) -> Result<Expression>
 val number = ::tnumber.map { Terminal.Number(it.toDouble()) }
 
 val plus = charLiteral('+').map { Terminal.BinaryOperator(it) }
+val minus = charLiteral('-').map { Terminal.BinaryOperator(it) }
