@@ -45,12 +45,12 @@ class ParsersTest: StringSpec({
     }
 
     "sequence" {
-        val p = sequence(::digits, stringLiteral("foo"))
+        val p = sequence(digits, stringLiteral("foo"))
         p("123foo") shouldBe Result.OK(Pair("123", "foo"), "")
     }
 
     "and" {
-        val p = ::digits and stringLiteral("foo")
+        val p = digits and stringLiteral("foo")
         p("123foo") shouldBe Result.OK(Pair("123", "foo"), "")
     }
 
@@ -75,8 +75,8 @@ class ParsersTest: StringSpec({
     }
 
     "zeroOrMore" {
-        val ws = optional(::whitespaces)
-        val n = (ws and ::number and ws).map { it.middle() }
+        val ws = optional(whitespaces)
+        val n = (ws and number and ws).map { it.middle() }
         val p = zeroOrMore(n)
         p("foo") shouldBe Result.OK(emptyList(), "foo")
         p("3.14") shouldBe Result.OK(listOf("3.14"), "")
@@ -86,8 +86,8 @@ class ParsersTest: StringSpec({
     }
 
     "oneOrMore" {
-        val ws = optional(::whitespaces)
-        val n = (ws and ::number and ws).map { it.middle() }
+        val ws = optional(whitespaces)
+        val n = (ws and number and ws).map { it.middle() }
         val p = oneOrMore(n)
         p("foo") shouldBe Result.Err("number", "foo")
         p("3.14") shouldBe Result.OK(listOf("3.14"), "")
