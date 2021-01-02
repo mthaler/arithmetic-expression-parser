@@ -1,8 +1,9 @@
 package com.mthaler.parser
 
-abstract class RecursiveParser<T>: Parser<T> {
+open class RecursiveParser<T>: Parser<T> {
 
-    protected lateinit var parser: Parser<T>
+    var parser: Parser<T>? = null
 
-    override fun parse(input: String): Result<T> = parser.parse(input)
+    override fun parse(input: String): Result<T> =
+        parser?.parse(input) ?: throw Exception("Parser not set")
 }

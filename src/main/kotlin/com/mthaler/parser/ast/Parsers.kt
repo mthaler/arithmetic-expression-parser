@@ -20,7 +20,11 @@ val rpar = ws(charLiteral(')'))
 object Expression: RecursiveParser<Expr>() {
 
     init {
-        val operand = number
+
+        val group = (lpar and this and rpar).map { it.middle() }
+
+        val operand = number or group
+
         val term: Parser<Expr> = (operand and (plus or minus) and operand).map { p ->
             val ex1 = p.first.first
             val op = p.first.second
