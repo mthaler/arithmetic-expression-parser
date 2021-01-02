@@ -13,6 +13,8 @@ val number: Parser<Expr> = ws(tnumber).map { Expr.Number(it.toDouble()) }
 
 val plus = ws(charLiteral('+'))
 val minus = ws(charLiteral('-'))
+val times = ws(charLiteral('+'))
+val div = ws(charLiteral('-'))
 
 val lpar = ws(charLiteral('('))
 val rpar = ws(charLiteral(')'))
@@ -25,13 +27,20 @@ object Expression: RecursiveParser<Expr>() {
 
         val operand = number or group
 
-        val term: Parser<Expr> = (operand and (plus or minus) and operand).map { p ->
+        val term: Parser<Expr> = (operand and (times or div) and operand).map { p ->
             val ex1 = p.first.first
             val op = p.first.second
             val ex2 = p.second
             Expr.BinOp(ex1, ex2, op)
         }
 
-        this.parser = term or number
+        val expr: Parser<Expr> = (term and (plus or minus) and term).map { p ->
+            val ex1 = p.first.first
+            val op = p.first.second
+            val ex2 = p.second
+            Expr.BinOp(ex1, ex2, op)
+        }
+
+        this.parser = expr or number
     }
 }

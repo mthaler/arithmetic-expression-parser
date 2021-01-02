@@ -9,7 +9,7 @@ fun interface Parser<T> {
 
 // combinators
 
-fun <T1, T2> sequence(p1: Parser<T1>, p2: Parser<T2>) = Parser<Pair<T1, T2>> { input ->
+fun <T1, T2> sequence(p1: Parser<T1>, p2: Parser<T2>): Parser<Pair<T1, T2>> = Parser { input ->
     p1(input).flatMap { r1, rest -> p2(rest).map { r2 -> Pair(r1, r2) } }
 }
 

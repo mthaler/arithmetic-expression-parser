@@ -47,6 +47,8 @@ class ParsersTest: StringSpec({
     "sequence" {
         val p = sequence(digits, stringLiteral("foo"))
         p("123foo") shouldBe Result.OK(Pair("123", "foo"), "")
+        p("123") shouldBe Result.Err("'foo'", "")
+        p("123bar") shouldBe Result.Err("'foo'", "bar")
     }
 
     "and" {
