@@ -63,6 +63,8 @@ class ParsersTest: StringSpec({
         e("3 + (4 + 5)") shouldBe Result.OK(Expr.BinOp(Expr.Number(3.0), Expr.BinOp(Expr.Number(4.0), Expr.Number(5.0), "+"), "+"), "")
         e("(3 + 4) + 5") shouldBe Result.OK(Expr.BinOp(Expr.BinOp(Expr.Number(3.0), Expr.Number(4.0), "+"), Expr.Number(5.0), "+"), "")
         e("3 + 4 + 5") shouldBe Result.OK(Expr.BinOp(Expr.BinOp(Expr.Number(3.0), Expr.Number(4.0), "+"), Expr.Number(5.0), "+"), "")
+        e("2^3") shouldBe Result.OK(Expr.BinOp(Expr.Number(2.0), Expr.Number(3.0), "^"), "")
+        e("2^3^4") shouldBe Result.OK(Expr.BinOp(Expr.Number(2.0), Expr.BinOp(Expr.Number(3.0), Expr.Number(4.0), "^"), "^"), "")
     }
 
     "functions" {

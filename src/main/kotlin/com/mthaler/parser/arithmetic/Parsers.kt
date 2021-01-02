@@ -39,7 +39,18 @@ object Expression: RecursiveParser<Expr>() {
         val operand: Parser<Expr> = factor or func or group
 
         val power: Parser<Expr> = (operand and zeroOrMore(exp and operand)).map { p ->
-            p.second.fold(p.first) { expr, item -> Expr.BinOp(expr, item.second, item.first) }
+            if (p.second.isEmpty()) {
+                p.first
+            } else {
+                val rest = p.second
+                var e = p.first
+                val result = arrayListOf<Pair<String, Expr>>()
+                for (item in rest) {
+                    result.add(Pair(item.first, e))
+                    e = item.second
+                }
+                result.foldRight(e) { item, expr -> Expr.BinOp(item.second, expr, item.first) }
+            }
         }
 
         val term: Parser<Expr> = (power and zeroOrMore((times or div) and power)).map { p ->
