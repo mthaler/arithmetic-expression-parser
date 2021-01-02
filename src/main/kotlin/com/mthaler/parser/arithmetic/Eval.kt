@@ -2,9 +2,7 @@ package com.mthaler.parser.arithmetic
 
 import com.mthaler.parser.Result
 import java.lang.IllegalArgumentException
-import kotlin.math.cos
-import kotlin.math.pow
-import kotlin.math.sin
+import kotlin.math.*
 
 fun Result<Expr>.eval(): Result<Double> = map { eval(it) }
 
@@ -12,8 +10,19 @@ private fun eval(value: Expr): Double = when(value) {
     is Expr.Number -> value.number
     is Expr.UnaryOp -> when(val op = value.operator) {
         "-" -> -eval(value.operand)
-        "sin" -> sin(eval(value.operand))
+        "abs" -> abs(eval(value.operand))
         "cos" -> cos(eval(value.operand))
+        "sin" -> sin(eval(value.operand))
+        "tan" -> tan(eval(value.operand))
+        "acos" -> acos(eval(value.operand))
+        "asin" -> asin(eval(value.operand))
+        "atan" -> atan(eval(value.operand))
+        "cosh" -> cosh(eval(value.operand))
+        "sinh" -> sinh(eval(value.operand))
+        "tanh" -> tanh(eval(value.operand))
+        "exp" -> exp(eval(value.operand))
+        "ln" -> ln(eval(value.operand))
+        "log" -> log10(eval(value.operand))
         else -> throw IllegalArgumentException("Unknown operator: $op")
     }
     is Expr.BinOp -> when(val op = value.operator) {
@@ -21,6 +30,7 @@ private fun eval(value: Expr): Double = when(value) {
         "-" -> eval(value.operand1) - eval(value.operand2)
         "*" -> eval(value.operand1) * eval(value.operand2)
         "/" -> eval(value.operand1) / eval(value.operand2)
+        "%" -> eval(value.operand1) % eval(value.operand2)
         "^" -> eval(value.operand1).pow(eval(value.operand2))
         else -> throw IllegalArgumentException("Unknown operator: $op")
     }
