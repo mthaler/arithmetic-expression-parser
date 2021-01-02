@@ -3,10 +3,7 @@ package com.mthaler.parser.arithmetic
 import com.mthaler.parser.Result
 import java.lang.IllegalArgumentException
 
-fun Result<Expr>.eval(): Result<Double> = when(this) {
-    is Result.OK ->  Result.OK(eval(this.value), this.rest)
-    is Result.Err -> this
-}
+fun Result<Expr>.eval(): Result<Double> = map { eval(it) }
 
 private fun eval(value: Expr): Double = when(value) {
     is Expr.Number -> value.number
