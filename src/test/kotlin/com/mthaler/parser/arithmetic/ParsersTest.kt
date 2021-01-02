@@ -30,6 +30,18 @@ class ParsersTest: StringSpec({
         minus("foo") shouldBe Result.Err("'-'", "foo")
     }
 
+    "*" {
+        times("*") shouldBe Result.OK("*", "")
+        times("* 5") shouldBe Result.OK("*", "5")
+        times("foo") shouldBe Result.Err("'*'", "foo")
+    }
+
+    "/" {
+        div("/") shouldBe Result.OK("/", "")
+        div("/ 5") shouldBe Result.OK("/", "5")
+        div("foo") shouldBe Result.Err("'/'", "foo")
+    }
+
     "expression" {
         val e = Expression
         e("3.14") shouldBe Result.OK(Expr.Number(3.14), "")

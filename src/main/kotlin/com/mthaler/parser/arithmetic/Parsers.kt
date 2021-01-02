@@ -13,8 +13,8 @@ val number: Parser<Expr> = ws(tnumber).map { Expr.Number(it.toDouble()) }
 
 val plus = ws(charLiteral('+'))
 val minus = ws(charLiteral('-'))
-val times = ws(charLiteral('+'))
-val div = ws(charLiteral('-'))
+val times = ws(charLiteral('*'))
+val div = ws(charLiteral('/'))
 
 val lpar = ws(charLiteral('('))
 val rpar = ws(charLiteral(')'))
