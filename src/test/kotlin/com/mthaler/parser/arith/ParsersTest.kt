@@ -1,4 +1,4 @@
-package com.mthaler.parser.ast
+package com.mthaler.parser.arith
 
 import com.mthaler.parser.Result
 import io.kotest.core.spec.style.StringSpec
