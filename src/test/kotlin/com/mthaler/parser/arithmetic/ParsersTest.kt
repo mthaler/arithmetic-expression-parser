@@ -64,4 +64,12 @@ class ParsersTest: StringSpec({
         e("(3 + 4) + 5") shouldBe Result.OK(Expr.BinOp(Expr.BinOp(Expr.Number(3.0), Expr.Number(4.0), "+"), Expr.Number(5.0), "+"), "")
         e("3 + 4 + 5") shouldBe Result.OK(Expr.BinOp(Expr.BinOp(Expr.Number(3.0), Expr.Number(4.0), "+"), Expr.Number(5.0), "+"), "")
     }
+
+    "functions" {
+        val e = Expression
+        e("sin(3.14)") shouldBe Result.OK(Expr.UnaryOp(Expr.Number(3.14), "sin"), "")
+        e("sin (3.14)") shouldBe Result.OK(Expr.UnaryOp(Expr.Number(3.14), "sin"), "")
+        e("sin( 3.14 )") shouldBe Result.OK(Expr.UnaryOp(Expr.Number(3.14), "sin"), "")
+        e("sin ( 3.14 )") shouldBe Result.OK(Expr.UnaryOp(Expr.Number(3.14), "sin"), "")
+    }
 })

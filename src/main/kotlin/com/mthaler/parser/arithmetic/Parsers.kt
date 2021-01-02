@@ -3,6 +3,7 @@ package com.mthaler.parser.arithmetic
 import com.mthaler.parser.*
 import com.mthaler.parser.tokens.number as tnumber
 import com.mthaler.parser.tokens.charLiteral
+import com.mthaler.parser.tokens.identifier
 import com.mthaler.parser.tokens.whitespaces
 import kotlin.math.exp
 
@@ -24,15 +25,19 @@ val neg = ws(charLiteral('-'))
 val lpar = ws(charLiteral('('))
 val rpar = ws(charLiteral(')'))
 
+val funcname = identifier
+
 object Expression: RecursiveParser<Expr>() {
 
     init {
 
-        val group = (lpar and this and rpar).map { it.middle() }
+        val func: Parser<Expr> = (funcname and lpar and this and rpar).map { Expr.UnaryOp(it.first.second, it.first.first.first) }
+
+        val group: Parser<Expr> = (lpar and this and rpar).map { it.middle() }
 
         val factor: Parser<Expr> = (neg and number).map { Expr.UnaryOp(it.second, it.first) as Expr } or number
 
-        val operand: Parser<Expr> = factor or group
+        val operand: Parser<Expr> = factor or group or func
 
         val power: Parser<Expr> = (operand and zeroOrMore(exp and operand)).map { p ->
             p.second.fold(p.first) { expr, item -> Expr.BinOp(expr, item.second, item.first) }
