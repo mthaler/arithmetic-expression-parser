@@ -10,6 +10,8 @@ private fun eval(value: Expr): Double = when(value) {
     is Expr.BinOp -> when(val op = value.operator) {
         "+" -> eval(value.operand1) + eval(value.operand2)
         "-" -> eval(value.operand1) - eval(value.operand2)
+        "*" -> eval(value.operand1) * eval(value.operand2)
+        "/" -> eval(value.operand1) / eval(value.operand2)
         else -> throw IllegalArgumentException("Unknown operator: $op")
     }
 }

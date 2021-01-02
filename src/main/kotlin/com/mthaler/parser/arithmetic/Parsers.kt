@@ -27,14 +27,11 @@ object Expression: RecursiveParser<Expr>() {
 
         val operand = number or group
 
-//        val term: Parser<Expr> = (operand and (times or div) and operand).map { p ->
-//            val ex1 = p.first.first
-//            val op = p.first.second
-//            val ex2 = p.second
-//            Expr.BinOp(ex1, ex2, op)
-//        }
+        val term: Parser<Expr> = (operand and zeroOrMore((times or div) and operand)).map { p ->
+            p.second.fold(p.first) { expr, item -> Expr.BinOp(expr, item.second, item.first) }
+        }
 
-        val expr: Parser<Expr> = (operand and zeroOrMore((plus or minus) and operand)).map { p ->
+        val expr: Parser<Expr> = (term and zeroOrMore((plus or minus) and operand)).map { p ->
             p.second.fold(p.first) { expr, item -> Expr.BinOp(expr, item.second, item.first) }
         }
 
