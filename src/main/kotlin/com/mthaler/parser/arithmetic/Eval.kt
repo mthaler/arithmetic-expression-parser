@@ -1,4 +1,4 @@
-package com.mthaler.parser.arith
+package com.mthaler.parser.arithmetic
 
 import com.mthaler.parser.Result
 import java.lang.IllegalArgumentException

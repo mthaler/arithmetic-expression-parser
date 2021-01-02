@@ -1,4 +1,4 @@
-package com.mthaler.parser.arith
+package com.mthaler.parser.arithmetic
 
 sealed class Expr {
 

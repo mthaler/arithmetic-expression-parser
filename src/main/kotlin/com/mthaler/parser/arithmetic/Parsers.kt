@@ -1,4 +1,4 @@
-package com.mthaler.parser.arith
+package com.mthaler.parser.arithmetic
 
 import com.mthaler.parser.*
 import com.mthaler.parser.tokens.number as tnumber
