@@ -70,7 +70,7 @@ fun <T> oneOrMore(p: Parser<T>) = Parser<List<T>> { input ->
     }
 }
 
-fun <T, U> Parser<T>.map(f: (T) -> U) = Parser<U> { input ->
+fun <T, U> Parser<T>.map(f: (T) -> U): Parser<U> = Parser { input ->
     this(input).map(f)
 }
 
