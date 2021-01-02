@@ -2,11 +2,7 @@ package com.mthaler.parser
 
 sealed class Result<out T> {
     data class OK<T>(val value: T, val rest: String): Result<T>()
-    data class Err(val expected: String, val input: String): Result<Nothing>() {
-        init {
-            println(this)
-        }
-    }
+    data class Err(val expected: String, val input: String): Result<Nothing>()
 
     fun <U> map(f: (T) -> U): Result<U> = when(this) {
         is Err -> this

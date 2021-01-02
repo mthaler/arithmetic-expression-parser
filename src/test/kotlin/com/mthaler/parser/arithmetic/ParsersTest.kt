@@ -1,10 +1,22 @@
 package com.mthaler.parser.arithmetic
 
 import com.mthaler.parser.Result
+import com.mthaler.parser.and
+import com.mthaler.parser.tokens.charLiteral
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
 class ParsersTest: StringSpec({
+
+    "ws" {
+        val n = ws(com.mthaler.parser.tokens.number)
+        val plus = ws(charLiteral('+'))
+        val p = n and plus and n
+        p("3 + 4") shouldBe Result.OK(Pair(Pair("3", "+"), "4"), "")
+        p(" 3 + 4 ") shouldBe Result.OK(Pair(Pair("3", "+"), "4"), "")
+        p("3 + 4foo") shouldBe Result.OK(Pair(Pair("3", "+"), "4"), "foo")
+        p("3 + 4 foo") shouldBe Result.OK(Pair(Pair("3", "+"), "4"), "foo")
+    }
 
     "number" {
         number("123") shouldBe Result.OK(Expr.Number(123.0), "")
