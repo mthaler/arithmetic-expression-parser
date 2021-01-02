@@ -5,33 +5,29 @@ import com.mthaler.parser.tokens.number as tnumber
 import com.mthaler.parser.tokens.charLiteral
 import com.mthaler.parser.tokens.whitespaces
 
-typealias ExpressionParser = (String) -> Result<Expression>
+typealias ExprParser = (String) -> Result<Expr>
 
-val ws = optional(::whitespaces)
+fun <T>ws(p: Parser<T>): Parser<T> = (optional(::whitespaces) and p and optional(::whitespaces)).map { it.middle() }
 
 // terminals
 
-val number = (ws and ::tnumber and ws).map { Terminal.Number(it.middle().toDouble()) }
+val number = ws(::tnumber).map { Expr.Number(it.toDouble()) }
 
-val plus = (ws and charLiteral('+') and ws).map { Terminal.BinaryOperator(it.middle()) }
-val minus = (ws and charLiteral('-') and ws).map { Terminal.BinaryOperator(it.middle()) }
-val times = (ws and charLiteral('*') and ws).map { Terminal.BinaryOperator(it.middle()) }
-val div = (ws and charLiteral('/') and ws).map { Terminal.BinaryOperator(it.middle()) }
+val plus = ws(charLiteral('+'))
+val minus = ws(charLiteral('-'))
 
-val binaryOperator = plus or minus or times or div
+val lpar = ws(charLiteral('('))
+val rpar = ws(charLiteral(')'))
 
-fun expression(): ExpressionParser = { input ->
-
-    val fromNumber = number.map { Expression.Number(it.value) }
-
-    val group = (charLiteral('(') and expression() and charLiteral(')')).map { it.first.second }
-
-    val fromBinary = ((fromNumber or group) and binaryOperator and ((fromNumber or group))).map { p ->
-        val ex1 = p.first.first
-        val op = p.first.second
-        val ex2 = p.second
-        Expression.BinOp(ex1, ex2, op)
-    }
-
-    (fromBinary or fromNumber)(input)
+fun term(): ExprParser = (operand() and (plus or minus) and operand()).map { p ->
+    val ex1 = p.first.first
+    val op = p.first.second
+    val ex2 = p.second
+    Expr.BinOp(ex1, ex2, op)
 }
+
+fun group(): ExprParser = (lpar and expression() and rpar).map { it.middle() }
+
+fun operand(): ExprParser = number
+
+fun expression(): ExprParser = term() or operand()
