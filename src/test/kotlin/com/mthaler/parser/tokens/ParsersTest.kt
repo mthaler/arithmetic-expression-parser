@@ -76,6 +76,7 @@ class ParsersTest: StringSpec({
         val p = optional(stringLiteral("foo"))
         p("foo") shouldBe Result.OK("foo", "")
         p("bar") shouldBe Result.OK(null, "bar")
+        p("foobar") shouldBe Result.OK("foo", "bar")
     }
 
     "zeroOrMore" {
