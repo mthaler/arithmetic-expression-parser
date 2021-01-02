@@ -44,6 +44,15 @@ class ParsersTest: StringSpec({
         number("foo123") shouldBe Result.Err("number", "foo123")
     }
 
+    "identifier" {
+        identifier("a") shouldBe Result.OK("a", "")
+        identifier("_a") shouldBe Result.OK("_a", "")
+        identifier("a_b") shouldBe Result.OK("a_b", "")
+        identifier("a1") shouldBe Result.OK("a1", "")
+        identifier("a123") shouldBe Result.OK("a123", "")
+        identifier("a bcd") shouldBe Result.OK("a", " bcd")
+    }
+
     "sequence" {
         val p = sequence(digits, stringLiteral("foo"))
         p("123foo") shouldBe Result.OK(Pair("123", "foo"), "")

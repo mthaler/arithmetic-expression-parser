@@ -80,3 +80,25 @@ val number = object : TokenParser {
         }
     }
 }
+
+val identifier = object : TokenParser {
+
+    override fun parse(input: String): Result<String> {
+        if (input.isEmpty()) {
+            return Result.Err("identifier", input)
+        } else if (!(input[0].isLetter() || input[0] == '_')) {
+            return Result.Err("identifier", input)
+        } else {
+            val sb = StringBuffer()
+            sb.append(input[0])
+            for (i in 1 until input.length) {
+                val c = input[i]
+                if (c.isLetterOrDigit() || c == '_')
+                    sb.append(c)
+                else
+                    return Result.OK(sb.toString(), input.substring(i))
+            }
+            return Result.OK(sb.toString(), "")
+        }
+    }
+}
