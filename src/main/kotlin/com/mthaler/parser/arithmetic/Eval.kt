@@ -23,6 +23,7 @@ private fun eval(value: Expr): Double = when(value) {
         "exp" -> exp(eval(value.operand))
         "ln" -> ln(eval(value.operand))
         "log" -> log10(eval(value.operand))
+        "sqrt" -> sqrt(eval(value.operand))
         else -> throw IllegalArgumentException("Unknown operator: $op")
     }
     is Expr.BinOp -> when(val op = value.operator) {

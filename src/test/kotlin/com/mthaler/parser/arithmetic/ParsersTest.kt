@@ -73,5 +73,6 @@ class ParsersTest: StringSpec({
         e("sin (3.14)") shouldBe Result.OK(Expr.UnaryOp(Expr.Number(3.14), "sin"), "")
         e("sin( 3.14 )") shouldBe Result.OK(Expr.UnaryOp(Expr.Number(3.14), "sin"), "")
         e("sin ( 3.14 )") shouldBe Result.OK(Expr.UnaryOp(Expr.Number(3.14), "sin"), "")
+        e("sqrt(4)").shouldBe(Result.OK(Expr.UnaryOp(Expr.Number(4.0), "sqrt"), ""))
     }
 })
