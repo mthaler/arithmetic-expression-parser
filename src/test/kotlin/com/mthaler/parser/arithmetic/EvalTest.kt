@@ -19,5 +19,6 @@ class EvalTest: StringSpec({
         e("3 * 4").eval() shouldBe Result.OK(12.0, "")
         e("3 * 4 + 2").eval() shouldBe Result.OK(14.0, "")
         //e("2 + 3 * 4").eval() shouldBe Result.OK(14.0, "")
+        e("2 ^ 3").eval() shouldBe Result.OK(8.0, "")
     }
 })

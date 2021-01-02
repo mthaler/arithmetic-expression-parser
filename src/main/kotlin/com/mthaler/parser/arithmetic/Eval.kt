@@ -2,6 +2,7 @@ package com.mthaler.parser.arithmetic
 
 import com.mthaler.parser.Result
 import java.lang.IllegalArgumentException
+import kotlin.math.pow
 
 fun Result<Expr>.eval(): Result<Double> = map { eval(it) }
 
@@ -16,6 +17,7 @@ private fun eval(value: Expr): Double = when(value) {
         "-" -> eval(value.operand1) - eval(value.operand2)
         "*" -> eval(value.operand1) * eval(value.operand2)
         "/" -> eval(value.operand1) / eval(value.operand2)
+        "^" -> eval(value.operand1).pow(eval(value.operand2))
         else -> throw IllegalArgumentException("Unknown operator: $op")
     }
 }

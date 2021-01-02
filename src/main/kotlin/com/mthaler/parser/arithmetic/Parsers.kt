@@ -16,6 +16,7 @@ val plus = ws(charLiteral('+'))
 val minus = ws(charLiteral('-'))
 val times = ws(charLiteral('*'))
 val div = ws(charLiteral('/'))
+val exp = ws(charLiteral('^'))
 
 // unary -
 val neg = ws(charLiteral('-'))
@@ -33,7 +34,11 @@ object Expression: RecursiveParser<Expr>() {
 
         val operand: Parser<Expr> = factor or group
 
-        val term: Parser<Expr> = (operand and zeroOrMore((times or div) and operand)).map { p ->
+        val power: Parser<Expr> = (operand and zeroOrMore(exp and operand)).map { p ->
+            p.second.fold(p.first) { expr, item -> Expr.BinOp(expr, item.second, item.first) }
+        }
+
+        val term: Parser<Expr> = (power and zeroOrMore((times or div) and power)).map { p ->
             p.second.fold(p.first) { expr, item -> Expr.BinOp(expr, item.second, item.first) }
         }
 
