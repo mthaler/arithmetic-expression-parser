@@ -13,21 +13,21 @@ fun <T1, T2> sequence(p1: Parser<T1>, p2: Parser<T2>): Parser<Pair<T1, T2>> = Pa
     p1(input).flatMap { r1, rest -> p2(rest).map { r2 -> Pair(r1, r2) } }
 }
 
-fun <T> orderedChoice(p1: Parser<T>, p2: Parser<T>) = Parser<T> { input ->
+fun <T> orderedChoice(p1: Parser<T>, p2: Parser<T>): Parser<T> = Parser { input ->
     when(val r1 = p1(input)) {
         is Result.OK -> r1
         is Result.Err -> p2(input).mapExpected { e ->  "${r1.expected} or $e" }
     }
 }
 
-fun <T> optional(p: Parser<T>) = Parser<T?> { input ->
+fun <T> optional(p: Parser<T>): Parser<T?> = Parser { input ->
     when(val r = p(input)) {
         is Result.OK -> r
         is Result.Err -> Result.OK(null, input)
     }
 }
 
-fun <T> zeroOrMore(p: Parser<T>) = Parser<List<T>> { input ->
+fun <T> zeroOrMore(p: Parser<T>): Parser<List<T>> = Parser { input ->
     var t = input
     var done = false
     val result = ArrayList<T>()
@@ -43,7 +43,7 @@ fun <T> zeroOrMore(p: Parser<T>) = Parser<List<T>> { input ->
     Result.OK(result, t)
 }
 
-fun <T> oneOrMore(p: Parser<T>) = Parser<List<T>> { input ->
+fun <T> oneOrMore(p: Parser<T>): Parser<List<T>> = Parser { input ->
 
     var t = input
     var done = false
