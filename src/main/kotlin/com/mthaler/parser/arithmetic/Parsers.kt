@@ -32,12 +32,11 @@ object Expression: RecursiveParser<Expr>() {
     init {
 
         val func: Parser<Expr> = (funcname and lpar and this and rpar).map { Expr.UnaryOp(it.first.second, it.first.first.first) }
-
         val group: Parser<Expr> = (lpar and this and rpar).map { it.middle() }
 
         val factor: Parser<Expr> = (neg and number).map { Expr.UnaryOp(it.second, it.first) as Expr } or number
 
-        val operand: Parser<Expr> = factor or group or func
+        val operand: Parser<Expr> = factor or func or group
 
         val power: Parser<Expr> = (operand and zeroOrMore(exp and operand)).map { p ->
             p.second.fold(p.first) { expr, item -> Expr.BinOp(expr, item.second, item.first) }
@@ -47,7 +46,7 @@ object Expression: RecursiveParser<Expr>() {
             p.second.fold(p.first) { expr, item -> Expr.BinOp(expr, item.second, item.first) }
         }
 
-        val expr: Parser<Expr> = (term and zeroOrMore((plus or minus) and operand)).map { p ->
+        val expr: Parser<Expr> = (term and zeroOrMore((plus or minus) and term)).map { p ->
             p.second.fold(p.first) { expr, item -> Expr.BinOp(expr, item.second, item.first) }
         }
 
