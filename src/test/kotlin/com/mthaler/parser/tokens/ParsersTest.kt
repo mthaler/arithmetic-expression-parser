@@ -44,8 +44,6 @@ class ParsersTest: StringSpec({
         number("foo123") shouldBe Result.Err("number", "foo123")
         number("10e3") shouldBe Result.OK("10e3", "")
         number("10E3") shouldBe Result.OK("10E3", "")
-        number("10e3") shouldBe Result.OK("10e3", "")
-        number("10E3") shouldBe Result.OK("10E3", "")
     }
 
     "identifier" {

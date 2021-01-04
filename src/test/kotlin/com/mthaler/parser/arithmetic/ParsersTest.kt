@@ -27,6 +27,8 @@ class ParsersTest: StringSpec({
         number("3.14foo") shouldBe Result.OK(Expr.Number(3.14), "foo")
         number("foo") shouldBe Result.Err("number", "foo")
         number("foo123") shouldBe Result.Err("number", "foo123")
+        number("10e3") shouldBe Result.OK(Expr.Number(10e3), "")
+        number("10E3") shouldBe Result.OK(Expr.Number(10E3), "")
     }
 
     "+" {

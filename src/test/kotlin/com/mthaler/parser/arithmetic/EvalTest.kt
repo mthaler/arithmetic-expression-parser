@@ -2,6 +2,7 @@ package com.mthaler.parser.arithmetic
 
 import com.mthaler.parser.Result
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 
 class EvalTest: StringSpec({
@@ -10,6 +11,7 @@ class EvalTest: StringSpec({
         val e = Expression
         e("3.14").eval() shouldBe Result.OK(3.14, "")
         e("-3.14").eval() shouldBe Result.OK(-3.14, "")
+        e("10e3").eval() shouldBe Result.OK(10000.0, "")
         e("3+4").eval() shouldBe Result.OK(7.0, "")
         e("3 + 4").eval() shouldBe Result.OK(7.0, "")
         e("-3 + 4").eval() shouldBe Result.OK(1.0, "")
@@ -25,5 +27,7 @@ class EvalTest: StringSpec({
         e("4^3^2").eval() shouldBe Result.OK(262144.0, "")
         e("sqrt(2 + 2)").eval() shouldBe Result.OK(2.0, "")
         e("sin(pi / 2)").eval() shouldBe Result.OK(1.0, "")
+        e("ln(e)").eval() shouldBe Result.OK(1.0, "")
+        e("ln(e * e)").eval() shouldBe Result.OK(2.0, "")
     }
 })

@@ -7,6 +7,7 @@ import com.mthaler.parser.tokens.identifier
 import com.mthaler.parser.tokens.stringLiteral
 import com.mthaler.parser.tokens.whitespaces
 import kotlin.math.PI
+import kotlin.math.E
 
 fun <T>ws(p: Parser<T>): Parser<T> = (optional(whitespaces) and p and optional(whitespaces)).map { it.middle() }
 
@@ -14,7 +15,8 @@ fun <T>ws(p: Parser<T>): Parser<T> = (optional(whitespaces) and p and optional(w
 
 val number: Parser<Expr> = ws(tnumber).map { Expr.Number(it.toDouble()) }
 
-val pi: Parser<Expr> =ws(stringLiteral("pi")).map { Expr.Number(PI) }
+val pi: Parser<Expr> = ws(stringLiteral("pi")).map { Expr.Number(PI) }
+val e: Parser<Expr> = ws(stringLiteral("e")).map { Expr.Number(E) }
 
 val plus = ws(charLiteral('+'))
 val minus = ws(charLiteral('-'))
@@ -37,7 +39,7 @@ object Expression: RecursiveParser<Expr>() {
         val func: Parser<Expr> = (funcname and lpar and this and rpar).map { Expr.UnaryOp(it.first.second, it.first.first.first) }
         val group: Parser<Expr> = (lpar and this and rpar).map { it.middle() }
 
-        val factor: Parser<Expr> = (neg and number).map { Expr.UnaryOp(it.second, it.first) as Expr } or number or pi
+        val factor: Parser<Expr> = (neg and number).map { Expr.UnaryOp(it.second, it.first) as Expr } or number or pi or e
 
         val operand: Parser<Expr> = factor or func or group
 
