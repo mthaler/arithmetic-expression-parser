@@ -24,5 +24,6 @@ class EvalTest: StringSpec({
         e("cos(0)").eval() shouldBe Result.OK(1.0, "")
         e("4^3^2").eval() shouldBe Result.OK(262144.0, "")
         e("sqrt(2 + 2)").eval() shouldBe Result.OK(2.0, "")
+        e("sin(pi / 2)").eval() shouldBe Result.OK(1.0, "")
     }
 })

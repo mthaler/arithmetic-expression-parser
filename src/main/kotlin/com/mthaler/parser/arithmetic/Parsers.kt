@@ -4,14 +4,17 @@ import com.mthaler.parser.*
 import com.mthaler.parser.tokens.number as tnumber
 import com.mthaler.parser.tokens.charLiteral
 import com.mthaler.parser.tokens.identifier
+import com.mthaler.parser.tokens.stringLiteral
 import com.mthaler.parser.tokens.whitespaces
-import kotlin.math.exp
+import kotlin.math.PI
 
 fun <T>ws(p: Parser<T>): Parser<T> = (optional(whitespaces) and p and optional(whitespaces)).map { it.middle() }
 
 // terminals
 
 val number: Parser<Expr> = ws(tnumber).map { Expr.Number(it.toDouble()) }
+
+val pi: Parser<Expr> =ws(stringLiteral("pi")).map { Expr.Number(PI) }
 
 val plus = ws(charLiteral('+'))
 val minus = ws(charLiteral('-'))
@@ -34,7 +37,7 @@ object Expression: RecursiveParser<Expr>() {
         val func: Parser<Expr> = (funcname and lpar and this and rpar).map { Expr.UnaryOp(it.first.second, it.first.first.first) }
         val group: Parser<Expr> = (lpar and this and rpar).map { it.middle() }
 
-        val factor: Parser<Expr> = (neg and number).map { Expr.UnaryOp(it.second, it.first) as Expr } or number
+        val factor: Parser<Expr> = (neg and number).map { Expr.UnaryOp(it.second, it.first) as Expr } or number or pi
 
         val operand: Parser<Expr> = factor or func or group
 
