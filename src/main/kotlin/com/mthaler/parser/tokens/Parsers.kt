@@ -43,6 +43,28 @@ val whitespaces = object : TokenParser {
     }
 }
 
+val lettersOrDigits = object : TokenParser {
+
+    override fun parse(input: String): Result<String> {
+        if (input.isEmpty()) {
+            return Result.Err("letters or digits", input)
+        } else if (!input[0].isLetterOrDigit()) {
+            return Result.Err("letters or digits", input)
+        } else {
+            val sb = StringBuffer()
+            sb.append(input[0])
+            for (i in 1 until input.length) {
+                val c = input[i]
+                if (c.isLetterOrDigit())
+                    sb.append(c)
+                else
+                    return Result.OK(sb.toString(), input.substring(i))
+            }
+            return Result.OK(sb.toString(), "")
+        }
+    }
+}
+
 val digits = object : TokenParser {
 
     override fun parse(input: String): Result<String> {

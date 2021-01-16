@@ -29,5 +29,6 @@ class EvalTest: StringSpec({
         e("sin(pi / 2)").eval() shouldBe Result.OK(1.0, "")
         e("ln(e)").eval() shouldBe Result.OK(1.0, "")
         e("ln(e * e)").eval() shouldBe Result.OK(2.0, "")
+        e("[a] + 3").eval(Context(mapOf(Pair("a", 2.0)))) shouldBe Result.OK(5.0, "")
     }
 })

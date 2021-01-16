@@ -27,6 +27,19 @@ class ParsersTest: StringSpec({
         whitespaces("123") shouldBe Result.Err("whitespaces", "123")
     }
 
+    "lettersOrDigits" {
+        lettersOrDigits("a") shouldBe Result.OK("a", "")
+        lettersOrDigits("ab") shouldBe Result.OK("ab", "")
+        lettersOrDigits("abc") shouldBe Result.OK("abc", "")
+        lettersOrDigits("1") shouldBe Result.OK("1", "")
+        lettersOrDigits("12") shouldBe Result.OK("12", "")
+        lettersOrDigits("123") shouldBe Result.OK("123", "")
+        lettersOrDigits("123foo") shouldBe Result.OK("123foo", "")
+        lettersOrDigits("foo") shouldBe Result.OK("foo", "")
+        lettersOrDigits("a*") shouldBe Result.OK("a", "*")
+        lettersOrDigits("*") shouldBe Result.Err("letters or digits", "*")
+    }
+
     "digits" {
         digits("1") shouldBe Result.OK("1", "")
         digits("12") shouldBe Result.OK("12", "")

@@ -4,35 +4,36 @@ import com.mthaler.parser.Result
 import java.lang.IllegalArgumentException
 import kotlin.math.*
 
-fun Result<Expr>.eval(): Result<Double> = map { eval(it) }
+fun Result<Expr>.eval(context: Context = Context.Empty): Result<Double> = map { eval(it, context) }
 
-private fun eval(value: Expr): Double = when(value) {
-    is Expr.Number -> value.number
-    is Expr.UnaryOp -> when(val op = value.operator) {
-        "-" -> -eval(value.operand)
-        "abs" -> abs(eval(value.operand))
-        "cos" -> cos(eval(value.operand))
-        "sin" -> sin(eval(value.operand))
-        "tan" -> tan(eval(value.operand))
-        "acos" -> acos(eval(value.operand))
-        "asin" -> asin(eval(value.operand))
-        "atan" -> atan(eval(value.operand))
-        "cosh" -> cosh(eval(value.operand))
-        "sinh" -> sinh(eval(value.operand))
-        "tanh" -> tanh(eval(value.operand))
-        "exp" -> exp(eval(value.operand))
-        "ln" -> ln(eval(value.operand))
-        "log" -> log10(eval(value.operand))
-        "sqrt" -> sqrt(eval(value.operand))
+private fun eval(expr: Expr, context: Context): Double = when(expr) {
+    is Expr.Number -> expr.number
+    is Expr.GlobalVar -> context.globalVars.getValue(expr.name)
+    is Expr.UnaryOp -> when(val op = expr.operator) {
+        "-" -> -eval(expr.operand, context)
+        "abs" -> abs(eval(expr.operand, context))
+        "cos" -> cos(eval(expr.operand, context))
+        "sin" -> sin(eval(expr.operand, context))
+        "tan" -> tan(eval(expr.operand, context))
+        "acos" -> acos(eval(expr.operand, context))
+        "asin" -> asin(eval(expr.operand, context))
+        "atan" -> atan(eval(expr.operand, context))
+        "cosh" -> cosh(eval(expr.operand, context))
+        "sinh" -> sinh(eval(expr.operand, context))
+        "tanh" -> tanh(eval(expr.operand, context))
+        "exp" -> exp(eval(expr.operand, context))
+        "ln" -> ln(eval(expr.operand, context))
+        "log" -> log10(eval(expr.operand, context))
+        "sqrt" -> sqrt(eval(expr.operand, context))
         else -> throw IllegalArgumentException("Unknown operator: $op")
     }
-    is Expr.BinOp -> when(val op = value.operator) {
-        "+" -> eval(value.operand1) + eval(value.operand2)
-        "-" -> eval(value.operand1) - eval(value.operand2)
-        "*" -> eval(value.operand1) * eval(value.operand2)
-        "/" -> eval(value.operand1) / eval(value.operand2)
-        "%" -> eval(value.operand1) % eval(value.operand2)
-        "^" -> eval(value.operand1).pow(eval(value.operand2))
+    is Expr.BinOp -> when(val op = expr.operator) {
+        "+" -> eval(expr.operand1, context) + eval(expr.operand2, context)
+        "-" -> eval(expr.operand1, context) - eval(expr.operand2, context)
+        "*" -> eval(expr.operand1, context) * eval(expr.operand2, context)
+        "/" -> eval(expr.operand1, context) / eval(expr.operand2, context)
+        "%" -> eval(expr.operand1, context) % eval(expr.operand2, context)
+        "^" -> eval(expr.operand1, context).pow(eval(expr.operand2, context))
         else -> throw IllegalArgumentException("Unknown operator: $op")
     }
 }

@@ -31,6 +31,19 @@ class ParsersTest: StringSpec({
         number("10E3") shouldBe Result.OK(Expr.Number(10E3), "")
     }
 
+    "globalVar" {
+        globalVar("123") shouldBe Result.Err("'['", "123")
+        globalVar("abc") shouldBe Result.Err("'['", "abc")
+        globalVar("[abc") shouldBe Result.Err("']'", "")
+        globalVar("[ab c]") shouldBe Result.Err("']'", " c]")
+        globalVar("[a]") shouldBe Result.OK(Expr.GlobalVar("a"), "")
+        globalVar("[ab]") shouldBe Result.OK(Expr.GlobalVar("ab"), "")
+        globalVar("[abc]") shouldBe Result.OK(Expr.GlobalVar("abc"), "")
+        globalVar("[1]") shouldBe Result.OK(Expr.GlobalVar("1"), "")
+        globalVar("[12]") shouldBe Result.OK(Expr.GlobalVar("12"), "")
+        globalVar("[123]") shouldBe Result.OK(Expr.GlobalVar("123"), "")
+    }
+
     "+" {
         plus("+") shouldBe Result.OK("+", "")
         plus("+ 5") shouldBe Result.OK("+", "5")
