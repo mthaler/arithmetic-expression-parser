@@ -40,7 +40,7 @@ object Expression: RecursiveParser<Expr>() {
 
         val factor: Parser<Expr> = (neg and number).map { Expr.UnaryOp(it.second, it.first) as Expr } or number or pi or e
 
-        val operand: Parser<Expr> = factor or func or globalVar or group
+        val operand: Parser<Expr> = func or factor or globalVar or group
 
         val power: Parser<Expr> = (operand and zeroOrMore(exp and operand)).map { p ->
             if (p.second.isEmpty()) {
