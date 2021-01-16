@@ -1,8 +1,8 @@
 package com.mthaler.parser.arithmetic
 
 import com.mthaler.parser.Result
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
-import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 
 class EvalTest: StringSpec({
@@ -31,5 +31,9 @@ class EvalTest: StringSpec({
         e("ln(e * e)").eval() shouldBe Result.OK(2.0, "")
         e("exp(1)").eval() shouldBe Result.OK(Math.E, "")
         e("[a] + 3").eval(Context(mapOf(Pair("a", 2.0)))) shouldBe Result.OK(5.0, "")
+        e("[a] + 3").eval(Context(mapOf(Pair("a", 2.0))))
+        shouldThrow<UndefinedVariableException> {
+            e("[a] + 3").eval()
+        }
     }
 })
