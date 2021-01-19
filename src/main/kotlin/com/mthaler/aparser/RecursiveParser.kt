@@ -1,4 +1,4 @@
-package com.mthaler.parser
+package com.mthaler.aparser
 
 open class RecursiveParser<T>: Parser<T> {
 

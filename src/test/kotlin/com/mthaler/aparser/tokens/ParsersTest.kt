@@ -1,7 +1,7 @@
-package com.mthaler.parser.tokens
+package com.mthaler.aparser.tokens
 
-import com.mthaler.parser.Result
-import com.mthaler.parser.*
+import com.mthaler.aparser.Result
+import com.mthaler.aparser.*
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 

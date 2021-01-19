@@ -1,4 +1,4 @@
-package com.mthaler.parser
+package com.mthaler.aparser
 
 fun interface Parser<T> {
 

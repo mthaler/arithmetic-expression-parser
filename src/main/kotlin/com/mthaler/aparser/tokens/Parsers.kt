@@ -1,7 +1,7 @@
-package com.mthaler.parser.tokens
+package com.mthaler.aparser.tokens
 
-import com.mthaler.parser.Parser
-import com.mthaler.parser.Result
+import com.mthaler.aparser.Parser
+import com.mthaler.aparser.Result
 
 fun interface TokenParser: Parser<String>
 

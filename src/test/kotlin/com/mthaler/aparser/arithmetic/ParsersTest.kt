@@ -1,15 +1,15 @@
-package com.mthaler.parser.arithmetic
+package com.mthaler.aparser.arithmetic
 
-import com.mthaler.parser.Result
-import com.mthaler.parser.and
-import com.mthaler.parser.tokens.charLiteral
+import com.mthaler.aparser.Result
+import com.mthaler.aparser.and
+import com.mthaler.aparser.tokens.charLiteral
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
 class ParsersTest: StringSpec({
 
     "ws" {
-        val n = ws(com.mthaler.parser.tokens.number)
+        val n = ws(com.mthaler.aparser.tokens.number)
         val plus = ws(charLiteral('+'))
         val p = n and plus and n
         p("3 + 4") shouldBe Result.OK(Pair(Pair("3", "+"), "4"), "")

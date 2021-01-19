@@ -1,8 +1,8 @@
-package com.mthaler.parser.arithmetic
+package com.mthaler.aparser.arithmetic
 
-import com.mthaler.parser.*
-import com.mthaler.parser.tokens.*
-import com.mthaler.parser.tokens.number as tnumber
+import com.mthaler.aparser.*
+import com.mthaler.aparser.tokens.*
+import com.mthaler.aparser.tokens.number as tnumber
 import kotlin.math.PI
 import kotlin.math.E
 

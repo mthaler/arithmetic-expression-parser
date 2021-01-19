@@ -1,6 +1,6 @@
-package com.mthaler.parser.arithmetic
+package com.mthaler.aparser.arithmetic
 
-import com.mthaler.parser.Result
+import com.mthaler.aparser.Result
 import java.lang.IllegalArgumentException
 import kotlin.math.*
 

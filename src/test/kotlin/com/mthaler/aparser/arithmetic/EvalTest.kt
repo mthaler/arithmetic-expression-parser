@@ -1,6 +1,6 @@
-package com.mthaler.parser.arithmetic
+package com.mthaler.aparser.arithmetic
 
-import com.mthaler.parser.Result
+import com.mthaler.aparser.Result
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
