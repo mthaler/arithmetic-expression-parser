@@ -6,6 +6,9 @@ import kotlin.math.*
 
 fun Result<Expr>.eval(context: Context = Context.Empty): Result<Double> = map { eval(it, context) }
 
+/**
+ * Evaluates the given expression
+ */
 private fun eval(expr: Expr, context: Context): Double = when(expr) {
     is Expr.Number -> expr.number
     is Expr.GlobalVar -> context.globalVars[expr.name] ?: throw UndefinedVariableException(expr.name)
