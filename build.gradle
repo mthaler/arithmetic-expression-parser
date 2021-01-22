@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'org.jetbrains.kotlin.jvm' version '1.4.10'
     id 'maven-publish'
     id 'signing'
@@ -30,6 +30,36 @@ java {
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
 publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'aparser'
+            from components.java
+            pom {
+                name = 'Arithmetic Expression Parser'
+                description = 'An arithmetic expression parser written in Kotlin'
+                url = 'https://github.com/mthaler/arithmetic-expression-parser'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'm_t'
+                        name = 'Michael Thaler'
+                        url = 'https://github.com/mthaler/'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://github.com/mthaler/arithmetic-expression-parser.git'
+                    developerConnection = 'scm:git:https://github.com/mthaler/arithmetic-expression-parser.git'
+                    url = 'https://github.com/mthaler/arithmetic-expression-parser'
+                }
+            }
+        }
+    }
+
     repositories {
         maven {
             def releaseRepo = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
@@ -41,37 +71,21 @@ publishing {
             }
         }
     }
-
-    publications {
-        mavenJava(MavenPublication) {
-            pom {
-                groupId = 'com.mthaler'
-                name = 'aparser'
-                description = 'An arithmetic expression parser written in Kotlin'
-                url = 'https://github.com/mthaler/arithmetic-expression-parser'
-                from components.java
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                scm {
-                    connection = 'scm:git:https://github.com/mthaler/arithmetic-expression-parser.git'
-                    developerConnection = 'scm:git:https://github.com/mthaler/arithmetic-expression-parser.git'
-                    url = 'https://github.com/mthaler/arithmetic-expression-parser'
-                }
-            }
-        }
-    }
 }
 
 
 signing {
     sign publishing.publications.mavenJava
 }
+
 tasks.withType(Sign) {
     onlyIf { isReleaseVersion }
+}
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
 }
 
 dependencies {
