@@ -1,5 +1,7 @@
 # arithmetic-expression-parser
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.mthaler/aparser/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.mthaler/aparser)
+
 **arithmetic-expression-parser** is a simple arithmetic expression parser written in Kotlin. It supports the following operations:
 
 - unary: -
