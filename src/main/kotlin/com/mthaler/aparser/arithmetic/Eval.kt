@@ -18,9 +18,9 @@ private fun eval(expr: Expr, context: Context): Double = when(expr) {
         "cos" -> evalTrigonometric(::cos, eval(expr.operand, context), context)
         "sin" -> evalTrigonometric(::sin, eval(expr.operand, context), context)
         "tan" -> evalTrigonometric(::tan, eval(expr.operand, context), context)
-        "acos" -> acos(eval(expr.operand, context))
-        "asin" -> asin(eval(expr.operand, context))
-        "atan" -> atan(eval(expr.operand, context))
+        "acos" -> evalInverseTrigonometric(::acos, eval(expr.operand, context), context)
+        "asin" -> evalInverseTrigonometric(::asin, eval(expr.operand, context), context)
+        "atan" -> evalInverseTrigonometric(::atan, eval(expr.operand, context), context)
         "cosh" -> cosh(eval(expr.operand, context))
         "sinh" -> sinh(eval(expr.operand, context))
         "tanh" -> tanh(eval(expr.operand, context))
@@ -44,4 +44,9 @@ private fun eval(expr: Expr, context: Context): Double = when(expr) {
 private fun evalTrigonometric(f: (Double) -> Double, value: Double, context: Context): Double = when(context.trigonometricUnit) {
     TrigonometricUnit.Rad -> f(value)
     TrigonometricUnit.Degree -> f(value * PI / 180)
+}
+
+private fun evalInverseTrigonometric(f: (Double) -> Double, value: Double, context: Context): Double = when(context.trigonometricUnit) {
+    TrigonometricUnit.Rad -> f(value)
+    TrigonometricUnit.Degree -> f(value) * 180 / PI
 }

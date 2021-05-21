@@ -7,7 +7,6 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import kotlin.math.PI
 
-
 class EvalTest: StringSpec({
 
     "expression" {
@@ -55,5 +54,22 @@ class EvalTest: StringSpec({
         e("tan(0)").eval(ctx) shouldBe Result.OK(0.0, "")
         e("sin(90)").eval(ctx) shouldBe Result.OK(1.0, "")
         e("cos(90)").eval(ctx).map { roundDouble(it, 6) } shouldBe Result.OK(0.0, "")
+    }
+
+    "inverseTrigonometricExpression" {
+        val e = Expression
+        // radians
+        e("asin(0)").eval() shouldBe Result.OK(0.0, "")
+        e("acos(1.0)").eval() shouldBe Result.OK(0.0, "")
+        e("atan(0)").eval() shouldBe Result.OK(0.0, "")
+        e("asin(1)").eval() shouldBe Result.OK(PI / 2.0, "")
+        e("acos(0)").eval() shouldBe Result.OK(PI / 2.0, "")
+        // degrees
+        val ctx = Context.Empty.copy(trigonometricUnit = TrigonometricUnit.Degree)
+        e("asin(0)").eval(ctx) shouldBe Result.OK(0.0, "")
+        e("acos(1.0)").eval(ctx) shouldBe Result.OK(0.0, "")
+        e("atan(0)").eval(ctx) shouldBe Result.OK(0.0, "")
+        e("asin(1)").eval(ctx) shouldBe Result.OK(90.0, "")
+        e("acos(0)").eval(ctx) shouldBe Result.OK(90.0, "")
     }
 })
