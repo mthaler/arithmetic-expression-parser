@@ -8,6 +8,8 @@
 - binary: +, -, *, /, ^ (power), % (modulo)
 - functions: abs, acos, asin, atan, cos, cosh, exp, ln, log, sin, sinh, sqrt, tan, tanh
 
+For trigonometric functions, both radians and degrees are supported.
+
 # Design
 
 The parser is build using combinators. Parsing is a two-step process:
