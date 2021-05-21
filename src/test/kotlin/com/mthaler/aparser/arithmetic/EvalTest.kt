@@ -1,9 +1,12 @@
 package com.mthaler.aparser.arithmetic
 
 import com.mthaler.aparser.Result
+import com.mthaler.aparser.util.roundDouble
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import kotlin.math.PI
+
 
 class EvalTest: StringSpec({
 
@@ -30,10 +33,27 @@ class EvalTest: StringSpec({
         e("ln(e)").eval() shouldBe Result.OK(1.0, "")
         e("ln(e * e)").eval() shouldBe Result.OK(2.0, "")
         e("exp(1)").eval() shouldBe Result.OK(Math.E, "")
-        e("[a] + 3").eval(Context(mapOf(Pair("a", 2.0)))) shouldBe Result.OK(5.0, "")
-        e("[a] + 3").eval(Context(mapOf(Pair("a", 2.0))))
+        e("[a] + 3").eval(Context(TrigonometricUnit.Rad, mapOf(Pair("a", 2.0)))) shouldBe Result.OK(5.0, "")
+        e("[a] + 3").eval(Context(TrigonometricUnit.Rad, mapOf(Pair("a", 2.0))))
         shouldThrow<UndefinedVariableException> {
             e("[a] + 3").eval()
         }
+    }
+
+    "trigonometricExpression" {
+        val e = Expression
+        // radians
+        e("sin(0)").eval() shouldBe Result.OK(0.0, "")
+        e("cos(0)").eval() shouldBe Result.OK(1.0, "")
+        e("tan(0)").eval() shouldBe Result.OK(0.0, "")
+        e("sin(${PI / 2})").eval() shouldBe Result.OK(1.0, "")
+        e("cos(${PI / 2})").eval().map { roundDouble(it, 6) } shouldBe Result.OK(0.0, "")
+        // degrees
+        val ctx = Context.Empty.copy(trigonometricUnit = TrigonometricUnit.Degree)
+        e("sin(0)").eval(ctx) shouldBe Result.OK(0.0, "")
+        e("cos(0)").eval(ctx) shouldBe Result.OK(1.0, "")
+        e("tan(0)").eval(ctx) shouldBe Result.OK(0.0, "")
+        e("sin(90)").eval(ctx) shouldBe Result.OK(1.0, "")
+        e("cos(90)").eval(ctx).map { roundDouble(it, 6) } shouldBe Result.OK(0.0, "")
     }
 })

@@ -15,9 +15,9 @@ private fun eval(expr: Expr, context: Context): Double = when(expr) {
     is Expr.UnaryOp -> when(val op = expr.operator) {
         "-" -> -eval(expr.operand, context)
         "abs" -> abs(eval(expr.operand, context))
-        "cos" -> cos(eval(expr.operand, context))
-        "sin" -> sin(eval(expr.operand, context))
-        "tan" -> tan(eval(expr.operand, context))
+        "cos" -> evalTrigonometric(::cos, eval(expr.operand, context), context)
+        "sin" -> evalTrigonometric(::sin, eval(expr.operand, context), context)
+        "tan" -> evalTrigonometric(::tan, eval(expr.operand, context), context)
         "acos" -> acos(eval(expr.operand, context))
         "asin" -> asin(eval(expr.operand, context))
         "atan" -> atan(eval(expr.operand, context))
@@ -39,4 +39,9 @@ private fun eval(expr: Expr, context: Context): Double = when(expr) {
         "^" -> eval(expr.operand1, context).pow(eval(expr.operand2, context))
         else -> throw IllegalArgumentException("Unknown operator: $op")
     }
+}
+
+private fun evalTrigonometric(f: (Double) -> Double, value: Double, context: Context): Double = when(context.trigonometricUnit) {
+    TrigonometricUnit.Rad -> f(value)
+    TrigonometricUnit.Degree -> f(value * PI / 180)
 }
