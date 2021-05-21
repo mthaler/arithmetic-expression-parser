@@ -39,6 +39,12 @@ class EvalTest: StringSpec({
         }
     }
 
+    "constantsExpressions" {
+        val e = Expression
+        e("pi").eval() shouldBe Result.OK(PI, "")
+        e("\u03C0").eval() shouldBe Result.OK(PI, "")
+    }
+
     "trigonometricExpression" {
         val e = Expression
         // radians
