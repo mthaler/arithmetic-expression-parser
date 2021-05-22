@@ -29,7 +29,7 @@ val neg = ws(charLiteral('-'))
 val lpar = ws(charLiteral('('))
 val rpar = ws(charLiteral(')'))
 
-val funcname = identifier
+val funcname = identifier or charLiteral('\u221A')
 
 object Expression: RecursiveParser<Expr>() {
 
