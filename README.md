@@ -25,11 +25,13 @@ The `Expression` object parses arithmetic expressions:
 Expression("3 + 4")
 ```
 
-This will return an abstract syntax tree. The `eval` extension method can be used to evaluate the expression:
+This will return an abstract syntax tree. The `tryEval` extension method can be used to evaluate the expression:
 
 ```kotlin
-Expression("3 + 4").eval()
+Expression("3 + 4").tryEval()
 ```
+
+The result will be `Success(7.0)`. If an invalid expression like `Expression("foo(0)")` is evaluated, a `Failure` will be returned.
 
 # License
 
