@@ -4,6 +4,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
 class ResultTest: StringSpec({
+
     "map" {
         val r0 = Result.OK(42, "rest")
         val r1 = r0.map { it.toString() }

@@ -15,7 +15,7 @@ sealed class Try<out T> {
     }
 
     companion object {
-        fun <U>invoke(f: () -> U): Try<U> {
+        operator fun <U>invoke(f: () -> U): Try<U> {
             try {
                 val result = f()
                 return Success(result)
