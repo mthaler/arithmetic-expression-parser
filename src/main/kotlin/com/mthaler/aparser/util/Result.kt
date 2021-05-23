@@ -1,4 +1,4 @@
-package com.mthaler.aparser
+package com.mthaler.aparser.util
 
 sealed class Result<out T> {
     data class OK<T>(val value: T, val rest: String): Result<T>()

@@ -1,5 +1,7 @@
 package com.mthaler.aparser
 
+import com.mthaler.aparser.util.Result
+
 fun interface Parser<T> {
 
     fun parse(input: String): Result<T>

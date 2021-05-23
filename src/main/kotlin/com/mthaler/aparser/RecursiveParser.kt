@@ -1,5 +1,7 @@
 package com.mthaler.aparser
 
+import com.mthaler.aparser.util.Result
+
 open class RecursiveParser<T>: Parser<T> {
 
     var parser: Parser<T>? = null

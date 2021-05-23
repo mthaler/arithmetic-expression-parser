@@ -1,6 +1,6 @@
 package com.mthaler.aparser.arithmetic
 
-import com.mthaler.aparser.Result
+import com.mthaler.aparser.util.Result
 import com.mthaler.aparser.util.roundDouble
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
