@@ -33,6 +33,17 @@ Expression("3 + 4").tryEval()
 
 The result will be `Success(7.0)`. If an invalid expression like `Expression("foo(0)")` is evaluated, a `Failure` will be returned.
 
+## Trigonometric units
+
+The default trigonometric unit is radians, but degrees are also supported:
+
+```kotlin
+val ctx = Context.Empty.copy(trigonometricUnit = TrigonometricUnit.Degree)
+Expression("sin(90)").tryEval(ctx)
+```
+
+The result will be `Success(1.0)`.
+
 # License
 
 Apache-2.0 License
