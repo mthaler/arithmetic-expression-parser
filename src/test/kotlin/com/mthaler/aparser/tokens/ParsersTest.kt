@@ -66,6 +66,25 @@ class ParsersTest: StringSpec({
         identifier("a1") shouldBe Result.OK("a1", "")
         identifier("a123") shouldBe Result.OK("a123", "")
         identifier("a bcd") shouldBe Result.OK("a", " bcd")
+        identifier("A") shouldBe Result.OK("A", "")
+        identifier("_A") shouldBe Result.OK("_A", "")
+        identifier("A_B") shouldBe Result.OK("A_B", "")
+        identifier("A1") shouldBe Result.OK("A1", "")
+        identifier("A BCD") shouldBe Result.OK("A", " BCD")
+    }
+
+    "lowerCaseIdentifier" {
+        lowerCaseIdentifier("a") shouldBe Result.OK("a", "")
+        lowerCaseIdentifier("_a") shouldBe Result.OK("_a", "")
+        lowerCaseIdentifier("a_b") shouldBe Result.OK("a_b", "")
+        lowerCaseIdentifier("a1") shouldBe Result.OK("a1", "")
+        lowerCaseIdentifier("a123") shouldBe Result.OK("a123", "")
+        lowerCaseIdentifier("a bcd") shouldBe Result.OK("a", " bcd")
+        lowerCaseIdentifier("A") shouldBe Result.Err("lowerCaseIdentifier", "A")
+        lowerCaseIdentifier("_A") shouldBe Result.OK("_", "A")
+        lowerCaseIdentifier("A_B") shouldBe Result.Err("lowerCaseIdentifier", "A_B")
+        lowerCaseIdentifier("A1") shouldBe Result.Err("lowerCaseIdentifier", "A1")
+        lowerCaseIdentifier("A BCD") shouldBe Result.Err("lowerCaseIdentifier", "A BCD")
     }
 
     "sequence" {

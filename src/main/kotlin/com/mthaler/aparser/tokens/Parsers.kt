@@ -124,3 +124,25 @@ val identifier = object : TokenParser {
         }
     }
 }
+
+val lowerCaseIdentifier = object : TokenParser {
+
+    override fun parse(input: String): Result<String> {
+        if (input.isEmpty()) {
+            return Result.Err("lowerCaseIdentifier", input)
+        } else if (!(input[0].isLowerCase() || input[0] == '_')) {
+            return Result.Err("lowerCaseIdentifier", input)
+        } else {
+            val sb = StringBuffer()
+            sb.append(input[0])
+            for (i in 1 until input.length) {
+                val c = input[i]
+                if ((c.isLowerCase()) || c.isDigit() || c == '_')
+                    sb.append(c)
+                else
+                    return Result.OK(sb.toString(), input.substring(i))
+            }
+            return Result.OK(sb.toString(), "")
+        }
+    }
+}
