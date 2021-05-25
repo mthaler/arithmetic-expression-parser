@@ -73,20 +73,6 @@ class ParsersTest: StringSpec({
         identifier("A BCD") shouldBe Result.OK("A", " BCD")
     }
 
-    "lowerCaseIdentifier" {
-        lowerCaseIdentifier("a") shouldBe Result.OK("a", "")
-        lowerCaseIdentifier("_a") shouldBe Result.OK("_a", "")
-        lowerCaseIdentifier("a_b") shouldBe Result.OK("a_b", "")
-        lowerCaseIdentifier("a1") shouldBe Result.OK("a1", "")
-        lowerCaseIdentifier("a123") shouldBe Result.OK("a123", "")
-        lowerCaseIdentifier("a bcd") shouldBe Result.OK("a", " bcd")
-        lowerCaseIdentifier("A") shouldBe Result.Err("lowerCaseIdentifier", "A")
-        lowerCaseIdentifier("_A") shouldBe Result.OK("_", "A")
-        lowerCaseIdentifier("A_B") shouldBe Result.Err("lowerCaseIdentifier", "A_B")
-        lowerCaseIdentifier("A1") shouldBe Result.Err("lowerCaseIdentifier", "A1")
-        lowerCaseIdentifier("A BCD") shouldBe Result.Err("lowerCaseIdentifier", "A BCD")
-    }
-
     "sequence" {
         val p = sequence(digits, stringLiteral("foo"))
         p("123foo") shouldBe Result.OK(Pair("123", "foo"), "")
