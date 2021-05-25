@@ -44,6 +44,17 @@ Expression("sin(90)").tryEval(ctx)
 
 The result will be `Success(1.0)`.
 
+## Global variables
+
+Global variables can be defined using upper case letters:
+
+```kotlin
+val ctx = Context(TrigonometricUnit.Rad, mapOf(Pair("A", 2.0)))
+Expression("A + 3").tryEval(ctx)
+```
+
+The result will be `Success(5.0)`.
+
 # License
 
 Apache-2.0 License
