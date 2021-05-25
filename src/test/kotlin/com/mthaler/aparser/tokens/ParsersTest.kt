@@ -61,6 +61,18 @@ class ParsersTest: StringSpec({
         lowerCaseLetters("a1c") shouldBe Result.OK("a", "1c")
     }
 
+    "upperCaseLetters" {
+        upperCaseLetters("") shouldBe Result.Err("upper case letters", "")
+        upperCaseLetters("A") shouldBe Result.OK("A", "")
+        upperCaseLetters("a") shouldBe Result.Err("upper case letters", "a")
+        upperCaseLetters("1") shouldBe Result.Err("upper case letters", "1")
+        upperCaseLetters("ABC") shouldBe Result.OK("ABC", "")
+        upperCaseLetters("ABc") shouldBe Result.OK("AB", "c")
+        upperCaseLetters("AbC") shouldBe Result.OK("A", "bC")
+        upperCaseLetters("AB1") shouldBe Result.OK("AB", "1")
+        upperCaseLetters("A1C") shouldBe Result.OK("A", "1C")
+    }
+
     "number" {
         number("123") shouldBe Result.OK("123", "")
         number("123foo") shouldBe Result.OK("123", "foo")
