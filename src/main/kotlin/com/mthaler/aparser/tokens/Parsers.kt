@@ -109,6 +109,28 @@ val lowerCaseLetters = object : TokenParser {
     }
 }
 
+val upperCaseLetters = object : TokenParser {
+
+    override fun parse(input: String): Result<String> {
+        if (input.isEmpty()) {
+            return Result.Err("upper case letters", input)
+        } else if (!input[0].isUpperCase()) {
+            return Result.Err("upper case letters", input)
+        } else {
+            val sb = StringBuffer()
+            sb.append(input[0])
+            for (i in 1 until input.length) {
+                val c = input[i]
+                if (c.isUpperCase())
+                    sb.append(c)
+                else
+                    return Result.OK(sb.toString(), input.substring(i))
+            }
+            return Result.OK(sb.toString(), "")
+        }
+    }
+}
+
 val number = object : TokenParser {
 
     override fun parse(input: String): Result<String> {
