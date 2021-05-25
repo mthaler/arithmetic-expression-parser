@@ -84,10 +84,17 @@ class ParsersTest: StringSpec({
 
     "functions" {
         val e = Expression
+        e("abs(-42)") shouldBe Result.OK(Expr.UnaryOp(Expr.UnaryOp(Expr.Number(42.0), "-"), "abs"), "")
+        e("cos(3.14)") shouldBe Result.OK(Expr.UnaryOp(Expr.Number(3.14), "cos"), "")
         e("sin(3.14)") shouldBe Result.OK(Expr.UnaryOp(Expr.Number(3.14), "sin"), "")
         e("sin (3.14)") shouldBe Result.OK(Expr.UnaryOp(Expr.Number(3.14), "sin"), "")
         e("sin( 3.14 )") shouldBe Result.OK(Expr.UnaryOp(Expr.Number(3.14), "sin"), "")
         e("sin ( 3.14 )") shouldBe Result.OK(Expr.UnaryOp(Expr.Number(3.14), "sin"), "")
-        e("sqrt(4)").shouldBe(Result.OK(Expr.UnaryOp(Expr.Number(4.0), "sqrt"), ""))
+        e("tan(3.14)") shouldBe Result.OK(Expr.UnaryOp(Expr.Number(3.14), "tan"), "")
+        e("acos(1.0)") shouldBe Result.OK(Expr.UnaryOp(Expr.Number(1.0), "acos"), "")
+        e("asin(1.0)") shouldBe Result.OK(Expr.UnaryOp(Expr.Number(1.0), "asin"), "")
+        e("atan(1.0)") shouldBe Result.OK(Expr.UnaryOp(Expr.Number(1.0), "atan"), "")
+        e("sqrt(4)") shouldBe Result.OK(Expr.UnaryOp(Expr.Number(4.0), "sqrt"), "")
+
     }
 })
