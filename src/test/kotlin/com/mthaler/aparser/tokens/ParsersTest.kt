@@ -3,6 +3,7 @@ package com.mthaler.aparser.tokens
 import com.mthaler.aparser.util.Result
 import com.mthaler.aparser.*
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 
 class ParsersTest: StringSpec({
@@ -46,6 +47,18 @@ class ParsersTest: StringSpec({
         digits("123") shouldBe Result.OK("123", "")
         digits("123foo") shouldBe Result.OK("123", "foo")
         digits("foo") shouldBe Result.Err("digits", "foo")
+    }
+
+    "lowerCaseLetters" {
+        lowerCaseLetters("") shouldBe Result.Err("lower case letters", "")
+        lowerCaseLetters("a") shouldBe Result.OK("a", "")
+        lowerCaseLetters("A") shouldBe Result.Err("lower case letters", "A")
+        lowerCaseLetters("1") shouldBe Result.Err("lower case letters", "1")
+        lowerCaseLetters("abc") shouldBe Result.OK("abc", "")
+        lowerCaseLetters("abC") shouldBe Result.OK("ab", "C")
+        lowerCaseLetters("aBc") shouldBe Result.OK("a", "Bc")
+        lowerCaseLetters("ab1") shouldBe Result.OK("ab", "1")
+        lowerCaseLetters("a1c") shouldBe Result.OK("a", "1c")
     }
 
     "number" {
