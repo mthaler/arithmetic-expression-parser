@@ -32,16 +32,14 @@ class ParsersTest: StringSpec({
     }
 
     "globalVar" {
-        globalVar("123") shouldBe Result.Err("'['", "123")
-        globalVar("abc") shouldBe Result.Err("'['", "abc")
-        globalVar("[abc") shouldBe Result.Err("']'", "")
-        globalVar("[ab c]") shouldBe Result.Err("']'", " c]")
-        globalVar("[a]") shouldBe Result.OK(Expr.GlobalVar("a"), "")
-        globalVar("[ab]") shouldBe Result.OK(Expr.GlobalVar("ab"), "")
-        globalVar("[abc]") shouldBe Result.OK(Expr.GlobalVar("abc"), "")
-        globalVar("[1]") shouldBe Result.OK(Expr.GlobalVar("1"), "")
-        globalVar("[12]") shouldBe Result.OK(Expr.GlobalVar("12"), "")
-        globalVar("[123]") shouldBe Result.OK(Expr.GlobalVar("123"), "")
+        globalVar("123") shouldBe Result.Err("upper case letters", "123")
+        globalVar("abc") shouldBe Result.Err("upper case letters", "abc")
+        globalVar("aABC") shouldBe Result.Err("upper case letters", "aABC")
+        globalVar("1ABC") shouldBe Result.Err("upper case letters", "1ABC")
+        globalVar("A") shouldBe Result.OK(Expr.GlobalVar("A"), "")
+        globalVar("AB") shouldBe Result.OK(Expr.GlobalVar("AB"), "")
+        globalVar("ABC") shouldBe Result.OK(Expr.GlobalVar("ABC"), "")
+        globalVar("AB1") shouldBe Result.OK(Expr.GlobalVar("AB"), "1")
     }
 
     "+" {

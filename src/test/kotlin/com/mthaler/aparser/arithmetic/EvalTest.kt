@@ -35,10 +35,9 @@ class EvalTest: StringSpec({
         e("ln(e)").eval() shouldBe Result.OK(1.0, "")
         e("ln(e * e)").eval() shouldBe Result.OK(2.0, "")
         e("exp(1)").eval() shouldBe Result.OK(Math.E, "")
-        e("[a] + 3").eval(Context(TrigonometricUnit.Rad, mapOf(Pair("a", 2.0)))) shouldBe Result.OK(5.0, "")
-        e("[a] + 3").eval(Context(TrigonometricUnit.Rad, mapOf(Pair("a", 2.0))))
+        e("A + 3").eval(Context(TrigonometricUnit.Rad, mapOf(Pair("A", 2.0)))) shouldBe Result.OK(5.0, "")
         shouldThrow<UndefinedVariableException> {
-            e("[a] + 3").eval()
+            e("A + 3").eval()
         }
     }
 

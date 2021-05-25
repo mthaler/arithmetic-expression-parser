@@ -15,7 +15,7 @@ val number: Parser<Expr> = ws(tnumber).map { Expr.Number(it.toDouble()) }
 val pi: Parser<Expr> = (ws(stringLiteral("pi")) or ws(stringLiteral("\u03C0"))).map { Expr.Number(PI) }
 val e: Parser<Expr> = ws(stringLiteral("e")).map { Expr.Number(E) }
 
-val globalVar: Parser<Expr> = ws(charLiteral('[') and lettersOrDigits and charLiteral(']')).map { Expr.GlobalVar(it.middle()) }
+val globalVar: Parser<Expr> = ws(upperCaseLetters).map { Expr.GlobalVar(it) }
 
 val plus = ws(charLiteral('+'))
 val minus = ws(charLiteral('-'))
