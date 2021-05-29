@@ -3,10 +3,9 @@ package com.mthaler.aparser.arithmetic
 import com.mthaler.aparser.*
 import com.mthaler.aparser.tokens.*
 import com.mthaler.aparser.tokens.number as tnumber
+import com.mthaler.aparser.common.*
 import kotlin.math.PI
 import kotlin.math.E
-
-fun <T>ws(p: Parser<T>): Parser<T> = (optional(whitespaces) and p and optional(whitespaces)).map { it.middle() }
 
 // terminals
 
@@ -16,18 +15,6 @@ val pi: Parser<Expr> = (ws(stringLiteral("pi")) or ws(stringLiteral("\u03C0"))).
 val e: Parser<Expr> = ws(stringLiteral("e")).map { Expr.Number(E) }
 
 val globalVar: Parser<Expr> = ws(upperCaseLetters).map { Expr.GlobalVar(it) }
-
-val plus = ws(charLiteral('+'))
-val minus = ws(charLiteral('-'))
-val times = ws(charLiteral('*'))
-val div = ws(charLiteral('/'))
-val exp = ws(charLiteral('^'))
-
-// unary -
-val neg = ws(charLiteral('-'))
-
-val lpar = ws(charLiteral('('))
-val rpar = ws(charLiteral(')'))
 
 val funcname = lowerCaseLetters or charLiteral('\u221A')
 
