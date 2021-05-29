@@ -23,7 +23,13 @@ fun Result<Expr>.tryEval(rng: RNG = RNG.Default): Try<Int> = when(this) {
  */
 private fun eval(expr: Expr, rng: RNG): Int = when(expr) {
     is Expr.Number -> expr.number
-    is Expr.Die -> TODO()
+    is Expr.Die -> {
+        var result = 0
+        for (i in 0 .. expr.count) {
+            result += rng.nextInt(expr.sides) + 1
+        }
+        result
+    }
     is Expr.UnaryOp -> when(val op = expr.operator) {
         "-" -> -eval(expr.operand, rng)
         else -> throw IllegalArgumentException("Unknown operator: $op")
