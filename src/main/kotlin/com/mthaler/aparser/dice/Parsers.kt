@@ -19,4 +19,21 @@ object Expression: RecursiveParser<Expr>() {
     val group: Parser<Expr> = (lpar and this and rpar).map { it.middle() }
 
     val factor: Parser<Expr> = (neg and integer).map { Expr.UnaryOp(it.second, it.first) as Expr } or integer
+
+    val operand: Parser<Expr> = die or factor or group
+
+    val power: Parser<Expr> = (operand and zeroOrMore(exp and operand)).map { p ->
+        if (p.second.isEmpty()) {
+            p.first
+        } else {
+            val rest = p.second
+            var e = p.first
+            val result = arrayListOf<Pair<String, Expr>>()
+            for (item in rest) {
+                result.add(Pair(item.first, e))
+                e = item.second
+            }
+            result.foldRight(e) { item, expr -> Expr.BinOp(item.second, expr, item.first) }
+        }
+    }
 }
