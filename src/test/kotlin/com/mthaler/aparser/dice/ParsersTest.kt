@@ -5,6 +5,7 @@ import io.kotest.matchers.shouldBe
 import com.mthaler.aparser.util.Result
 
 class ParsersTest: StringSpec({
+
     "die" {
         die("") shouldBe Result.Err("'d'", "")
         die("d6") shouldBe Result.OK(Expr.Die(6, 1), "")
