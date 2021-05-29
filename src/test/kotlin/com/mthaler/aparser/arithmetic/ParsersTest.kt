@@ -1,10 +1,11 @@
 package com.mthaler.aparser.arithmetic
 
-import com.mthaler.aparser.util.Result
 import com.mthaler.aparser.and
+import com.mthaler.aparser.util.Result
 import com.mthaler.aparser.tokens.charLiteral
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import com.mthaler.aparser.common.*
 
 class ParsersTest: StringSpec({
 

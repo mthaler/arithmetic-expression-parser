@@ -4,8 +4,6 @@ import com.mthaler.aparser.*
 import com.mthaler.aparser.common.ws
 import com.mthaler.aparser.common.*
 
-// terminals
-
 val integer: Parser<Expr>  = ws(com.mthaler.aparser.tokens.digits).map { Expr.Number(it.toInt()) }
 
 object Expression: RecursiveParser<Expr>() {
