@@ -12,4 +12,12 @@ class ParsersTest: StringSpec({
         die("d6foo") shouldBe Result.OK(Expr.Die(6, 1), "foo")
         die("2d6foo") shouldBe Result.OK(Expr.Die(6, 2), "foo")
     }
+
+    "number" {
+        number("123") shouldBe Result.OK(Expr.Number(123), "")
+        number("123foo") shouldBe Result.OK(Expr.Number(123), "foo")
+        number("123 foo") shouldBe Result.OK(Expr.Number(123), "foo")
+        number("foo") shouldBe Result.Err("digits", "foo")
+        number("foo123") shouldBe Result.Err("digits", "foo123")
+    }
 })
