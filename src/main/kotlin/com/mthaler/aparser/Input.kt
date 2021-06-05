@@ -1,3 +1,9 @@
 package com.mthaler.aparser
 
-data class Input(val text: String, var position: Int)
+/**
+ * The Input class stores the text that should be parsed and the current position
+ */
+data class Input(val text: String, val position: Int) {
+
+    fun rest(): String = text.substring(position)
+}
