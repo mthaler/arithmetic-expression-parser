@@ -1,29 +1,30 @@
 package com.mthaler.aparser.tokens
 
+import com.mthaler.aparser.Buffer
 import com.mthaler.aparser.Parser
 import com.mthaler.aparser.util.Result
 
-fun interface TokenParser: Parser<String>
+fun interface TokenParser: Parser<Buffer>
 
 val numberRegex = Regex("^\\d+(\\.\\d*)?([eE][+-]?\\d+)?")
 
 fun charLiteral(c: Char) = TokenParser { input ->
     if (input.startsWith(c))
-        Result.OK(c.toString(), input.substring(1))
+        Result.OK(Buffer(c.toString()), input.substring(1))
     else
         Result.Err("'$c'", input)
 }
 
 fun stringLiteral(s: String) = TokenParser { input ->
     if (input.startsWith(s))
-        Result.OK(s, input.substring(s.length))
+        Result.OK(Buffer(s), input.substring(s.length))
     else
         Result.Err("'$s'", input)
 }
 
 val whitespaces = object : TokenParser {
 
-    override fun parse(input: String): Result<String> {
+    override fun parse(input: String): Result<Buffer> {
         if (input.isEmpty()) {
             return Result.Err("whitespaces", input)
         } else if (!input[0].isWhitespace()) {
@@ -36,16 +37,16 @@ val whitespaces = object : TokenParser {
                 if (c.isWhitespace())
                     sb.append(c)
                 else
-                    return Result.OK(sb.toString(), input.substring(i))
+                    return Result.OK(Buffer(sb.toString()), input.substring(i))
             }
-            return Result.OK(sb.toString(), "")
+            return Result.OK(Buffer(sb.toString()), "")
         }
     }
 }
 
 val lettersOrDigits = object : TokenParser {
 
-    override fun parse(input: String): Result<String> {
+    override fun parse(input: String): Result<Buffer> {
         if (input.isEmpty()) {
             return Result.Err("letters or digits", input)
         } else if (!input[0].isLetterOrDigit()) {
@@ -58,16 +59,16 @@ val lettersOrDigits = object : TokenParser {
                 if (c.isLetterOrDigit())
                     sb.append(c)
                 else
-                    return Result.OK(sb.toString(), input.substring(i))
+                    return Result.OK(Buffer(sb.toString()), input.substring(i))
             }
-            return Result.OK(sb.toString(), "")
+            return Result.OK(Buffer(sb.toString()), "")
         }
     }
 }
 
 val digits = object : TokenParser {
 
-    override fun parse(input: String): Result<String> {
+    override fun parse(input: String): Result<Buffer> {
         if (input.isEmpty()) {
             return Result.Err("digits", input)
         } else if (!input[0].isDigit()) {
@@ -80,16 +81,16 @@ val digits = object : TokenParser {
                 if (c.isDigit())
                     sb.append(c)
                 else
-                    return Result.OK(sb.toString(), input.substring(i))
+                    return Result.OK(Buffer(sb.toString()), input.substring(i))
             }
-            return Result.OK(sb.toString(), "")
+            return Result.OK(Buffer(sb.toString()), "")
         }
     }
 }
 
 val lowerCaseLetters = object : TokenParser {
 
-    override fun parse(input: String): Result<String> {
+    override fun parse(input: String): Result<Buffer> {
         if (input.isEmpty()) {
             return Result.Err("lower case letters", input)
         } else if (!input[0].isLowerCase()) {
@@ -102,16 +103,16 @@ val lowerCaseLetters = object : TokenParser {
                 if (c.isLowerCase())
                     sb.append(c)
                 else
-                    return Result.OK(sb.toString(), input.substring(i))
+                    return Result.OK(Buffer(sb.toString()), input.substring(i))
             }
-            return Result.OK(sb.toString(), "")
+            return Result.OK(Buffer(sb.toString()), "")
         }
     }
 }
 
 val upperCaseLetters = object : TokenParser {
 
-    override fun parse(input: String): Result<String> {
+    override fun parse(input: String): Result<Buffer> {
         if (input.isEmpty()) {
             return Result.Err("upper case letters", input)
         } else if (!input[0].isUpperCase()) {
@@ -124,22 +125,22 @@ val upperCaseLetters = object : TokenParser {
                 if (c.isUpperCase())
                     sb.append(c)
                 else
-                    return Result.OK(sb.toString(), input.substring(i))
+                    return Result.OK(Buffer(sb.toString()), input.substring(i))
             }
-            return Result.OK(sb.toString(), "")
+            return Result.OK(Buffer(sb.toString()), "")
         }
     }
 }
 
 val number = object : TokenParser {
 
-    override fun parse(input: String): Result<String> {
+    override fun parse(input: String): Result<Buffer> {
         if (input.isEmpty()) {
             return Result.Err("number", input)
         } else {
             val m = numberRegex.find(input)
             if (m != null) {
-                return Result.OK(m.value, input.substring(m.range.endInclusive + 1))
+                return Result.OK(Buffer(m.value), input.substring(m.range.endInclusive + 1))
             } else {
                 return Result.Err("number", input)
             }
@@ -149,7 +150,7 @@ val number = object : TokenParser {
 
 val identifier = object : TokenParser {
 
-    override fun parse(input: String): Result<String> {
+    override fun parse(input: String): Result<Buffer> {
         if (input.isEmpty()) {
             return Result.Err("identifier", input)
         } else if (!(input[0].isLetter() || input[0] == '_')) {
@@ -162,9 +163,9 @@ val identifier = object : TokenParser {
                 if (c.isLetterOrDigit() || c == '_')
                     sb.append(c)
                 else
-                    return Result.OK(sb.toString(), input.substring(i))
+                    return Result.OK(Buffer(sb.toString()), input.substring(i))
             }
-            return Result.OK(sb.toString(), "")
+            return Result.OK(Buffer(sb.toString()), "")
         }
     }
 }
