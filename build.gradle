@@ -1,7 +1,9 @@
 plugins {
-    id 'application'
+    id 'java-library'
     id 'org.jetbrains.kotlin.jvm' version '1.4.32'
-    id 'io.gitlab.arturbosch.detekt' version '1.22.0'
+    id 'maven-publish'
+    id 'signing'
+    id 'io.gitlab.arturbosch.detekt' version '1.16.0'
 }
 
 group 'com.mthaler'
@@ -34,6 +36,54 @@ java {
 }
 
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'aparser'
+            from components.java
+            pom {
+                name = 'Arithmetic Expression Parser'
+                description = 'An arithmetic expression parser written in Kotlin'
+                url = 'https://github.com/mthaler/arithmetic-expression-parser'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'm_t'
+                        name = 'Michael Thaler'
+                        url = 'https://github.com/mthaler/'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://github.com/mthaler/arithmetic-expression-parser.git'
+                    developerConnection = 'scm:git:https://github.com/mthaler/arithmetic-expression-parser.git'
+                    url = 'https://github.com/mthaler/arithmetic-expression-parser'
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            def releaseRepo = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotRepo = "https://oss.sonatype.org/content/repositories/snapshots/"
+            url = isReleaseVersion ? releaseRepo : snapshotRepo
+            credentials {
+                username = project.hasProperty('ossrhUsername') ? ossrhUsername : "Unknown user"
+                password = project.hasProperty('ossrhPassword') ? ossrhPassword : "Unknown password"
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}
 
 javadoc {
     if(JavaVersion.current().isJava9Compatible()) {
