@@ -25,7 +25,7 @@ fun stringLiteral(s: String) = TokenParser { input ->
 val whitespaces = object : TokenParser {
 
     override fun parse(input: Buffer): Result<Buffer> {
-        if (input.text.isEmpty()) {
+        if (input.isEmpty()) {
             return Result.Err("whitespaces", input.text)
         } else if (!input.text[0].isWhitespace()) {
             return Result.Err("whitespaces", input.text)
@@ -47,7 +47,7 @@ val whitespaces = object : TokenParser {
 val lettersOrDigits = object : TokenParser {
 
     override fun parse(input: Buffer): Result<Buffer> {
-        if (input.text.isEmpty()) {
+        if (input.isEmpty()) {
             return Result.Err("letters or digits", input.text)
         } else if (!input.text[0].isLetterOrDigit()) {
             return Result.Err("letters or digits", input.text)
@@ -69,7 +69,7 @@ val lettersOrDigits = object : TokenParser {
 val digits = object : TokenParser {
 
     override fun parse(input: Buffer): Result<Buffer> {
-        if (input.text.isEmpty()) {
+        if (input.isEmpty()) {
             return Result.Err("digits", input.text)
         } else if (!input.text[0].isDigit()) {
             return Result.Err("digits", input.text)
@@ -91,7 +91,7 @@ val digits = object : TokenParser {
 val lowerCaseLetters = object : TokenParser {
 
     override fun parse(input: Buffer): Result<Buffer> {
-        if (input.text.isEmpty()) {
+        if (input.isEmpty()) {
             return Result.Err("lower case letters", input.text)
         } else if (!input.text[0].isLowerCase()) {
             return Result.Err("lower case letters", input.text)
@@ -113,7 +113,7 @@ val lowerCaseLetters = object : TokenParser {
 val upperCaseLetters = object : TokenParser {
 
     override fun parse(input: Buffer): Result<Buffer> {
-        if (input.text.isEmpty()) {
+        if (input.isEmpty()) {
             return Result.Err("upper case letters", input.text)
         } else if (!input.text[0].isUpperCase()) {
             return Result.Err("upper case letters", input.text)
@@ -135,7 +135,7 @@ val upperCaseLetters = object : TokenParser {
 val number = object : TokenParser {
 
     override fun parse(input: Buffer): Result<Buffer> {
-        if (input.text.isEmpty()) {
+        if (input.isEmpty()) {
             return Result.Err("number", input.text)
         } else {
             val m = numberRegex.find(input.text)
@@ -151,7 +151,7 @@ val number = object : TokenParser {
 val identifier = object : TokenParser {
 
     override fun parse(input: Buffer): Result<Buffer> {
-        if (input.text.isEmpty()) {
+        if (input.isEmpty()) {
             return Result.Err("identifier", input.text)
         } else if (!(input.text[0].isLetter() || input.text[0] == '_')) {
             return Result.Err("identifier", input.text)
