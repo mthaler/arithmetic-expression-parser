@@ -9,14 +9,14 @@ fun interface TokenParser: Parser<Buffer>
 val numberRegex = Regex("^\\d+(\\.\\d*)?([eE][+-]?\\d+)?")
 
 fun charLiteral(c: Char) = TokenParser { input ->
-    if (input.text.startsWith(c))
-        Result.OK(Buffer(c.toString()), input.text.substring(1))
+    if (input.startsWith(c))
+        Result.OK(Buffer(c), input.text.substring(1))
     else
         Result.Err("'$c'", input.text)
 }
 
 fun stringLiteral(s: String) = TokenParser { input ->
-    if (input.text.startsWith(s))
+    if (input.startsWith(s))
         Result.OK(Buffer(s), input.text.substring(s.length))
     else
         Result.Err("'$s'", input.text)
