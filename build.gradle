@@ -1,6 +1,6 @@
 plugins {
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
-    id 'org.jetbrains.kotlin.jvm' version '1.5.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.32'
 
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
@@ -40,11 +40,7 @@ javadoc {
 
 
 dependencies {
-    // Align versions of all Kotlin components
-    implementation platform('org.jetbrains.kotlin:kotlin-bom')
-
-    // Use the Kotlin JDK 8 standard library.
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
     
     testImplementation 'io.kotest:kotest-runner-junit5:5.5.4'
     testImplementation 'io.kotest:kotest-assertions-core:5.5.4'

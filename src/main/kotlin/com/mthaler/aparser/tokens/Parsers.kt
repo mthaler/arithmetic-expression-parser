@@ -10,7 +10,7 @@ val numberRegex = Regex("^\\d+(\\.\\d*)?([eE][+-]?\\d+)?")
 
 fun charLiteral(c: Char) = TokenParser { input ->
     if (input.startsWith(c))
-        Result.OK(Buffer(c), input.text.substring(1))
+        Result.OK(Buffer(c.toString()), input.text.substring(1))
     else
         Result.Err("'$c'", input.text)
 }
