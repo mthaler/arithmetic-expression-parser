@@ -1,24 +1,20 @@
 plugins {
+    // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
+    id 'org.jetbrains.kotlin.jvm' version '1.5.0'
+
+    // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.32'
-    id 'maven-publish'
-    id 'signing'
-    id 'io.gitlab.arturbosch.detekt' version '1.16.0'
+
+    id 'io.gitlab.arturbosch.detekt' version '1.22.0'
+}
+
+repositories {
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
 }
 
 group 'com.mthaler'
 version '0.5.0'
-
-repositories {
-    mavenCentral()
-    jcenter {
-        content {
-            // just allow to include kotlinx projects
-            // detekt needs 'kotlinx-html' for the html report
-            includeGroup "org.jetbrains.kotlinx"
-        }
-    }
-}
 
 test {
     useJUnitPlatform()
@@ -37,53 +33,6 @@ java {
 
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifactId = 'aparser'
-            from components.java
-            pom {
-                name = 'Arithmetic Expression Parser'
-                description = 'An arithmetic expression parser written in Kotlin'
-                url = 'https://github.com/mthaler/arithmetic-expression-parser'
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'm_t'
-                        name = 'Michael Thaler'
-                        url = 'https://github.com/mthaler/'
-                    }
-                }
-                scm {
-                    connection = 'scm:git:https://github.com/mthaler/arithmetic-expression-parser.git'
-                    developerConnection = 'scm:git:https://github.com/mthaler/arithmetic-expression-parser.git'
-                    url = 'https://github.com/mthaler/arithmetic-expression-parser'
-                }
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            def releaseRepo = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-            def snapshotRepo = "https://oss.sonatype.org/content/repositories/snapshots/"
-            url = isReleaseVersion ? releaseRepo : snapshotRepo
-            credentials {
-                username = project.hasProperty('ossrhUsername') ? ossrhUsername : "Unknown user"
-                password = project.hasProperty('ossrhPassword') ? ossrhPassword : "Unknown password"
-            }
-        }
-    }
-}
-
-signing {
-    sign publishing.publications.mavenJava
-}
 
 javadoc {
     if(JavaVersion.current().isJava9Compatible()) {
@@ -109,7 +58,12 @@ detekt {
 tasks.detekt.jvmTarget = "1.8"
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+    // Align versions of all Kotlin components
+    implementation platform('org.jetbrains.kotlin:kotlin-bom')
+
+    // Use the Kotlin JDK 8 standard library.
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    
     testImplementation 'io.kotest:kotest-runner-junit5:4.3.2'
     testImplementation 'io.kotest:kotest-assertions-core:4.3.2'
 }
