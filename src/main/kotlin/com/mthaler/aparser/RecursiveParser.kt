@@ -6,6 +6,6 @@ open class RecursiveParser<T>: Parser<T> {
 
     var parser: Parser<T>? = null
 
-    override fun parse(input: Buffer<String?>): Result<T> =
+    override fun parse(input: Buffer): Result<T> =
         parser?.parse(input) ?: throw Exception("Parser not set")
 }

@@ -4,9 +4,9 @@ import com.mthaler.aparser.util.Result
 
 fun interface Parser<T> {
 
-    fun parse(input: Buffer<String?>): Result<T>
+    fun parse(input: Buffer): Result<T>
 
-    operator fun invoke(input: Buffer<String?>): Result<T> = parse(input)
+    operator fun invoke(input: Buffer): Result<T> = parse(input)
 
     operator fun invoke(input: String?): Result<T> = parse(Buffer(input))
 }

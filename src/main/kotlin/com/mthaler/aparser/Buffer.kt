@@ -1,6 +1,6 @@
 package com.mthaler.aparser
 
-data class Buffer<T>(val t: T?) {
+data class Buffer(val t: String?) {
 
     fun isEmpty():Boolean = text().isEmpty()
 
@@ -10,7 +10,7 @@ data class Buffer<T>(val t: T?) {
 
     fun startsWith(char: Char): Boolean = text().startsWith(char)
     fun text(): String {
-        return if (t != null && t is String) {
+        return if (t != null) {
             return t
         } else {
             ""
@@ -18,4 +18,4 @@ data class Buffer<T>(val t: T?) {
     }
 }
 
-fun String.toBuffer(): Buffer<String?> = Buffer(this)
+fun String.toBuffer(): Buffer = Buffer(this)
