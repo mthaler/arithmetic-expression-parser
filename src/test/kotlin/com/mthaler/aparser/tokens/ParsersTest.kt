@@ -21,23 +21,23 @@ class ParsersTest: StringSpec({
     }
 
     "whitespaces" {
-        whitespaces(" ") shouldBe Result.OK(" ", "")
-        whitespaces(" 123") shouldBe Result.OK(" ", "123")
-        whitespaces("  123") shouldBe Result.OK("  ", "123")
-        whitespaces(" \t123") shouldBe Result.OK(" \t", "123")
+        whitespaces(" ") shouldBe Result.OK(" ".toBuffer(), "")
+        whitespaces(" 123") shouldBe Result.OK(" ".toBuffer(), "123")
+        whitespaces("  123") shouldBe Result.OK("  ".toBuffer(), "123")
+        whitespaces(" \t123") shouldBe Result.OK(" \t".toBuffer(), "123")
         whitespaces("123") shouldBe Result.Err("whitespaces", "123")
     }
 
     "lettersOrDigits" {
-        lettersOrDigits("a") shouldBe Result.OK("a", "")
-        lettersOrDigits("ab") shouldBe Result.OK("ab", "")
-        lettersOrDigits("abc") shouldBe Result.OK("abc", "")
-        lettersOrDigits("1") shouldBe Result.OK("1", "")
-        lettersOrDigits("12") shouldBe Result.OK("12", "")
-        lettersOrDigits("123") shouldBe Result.OK("123", "")
-        lettersOrDigits("123foo") shouldBe Result.OK("123foo", "")
-        lettersOrDigits("foo") shouldBe Result.OK("foo", "")
-        lettersOrDigits("a*") shouldBe Result.OK("a", "*")
+        lettersOrDigits("a") shouldBe Result.OK("a".toBuffer(), "")
+        lettersOrDigits("ab") shouldBe Result.OK("ab".toBuffer(), "")
+        lettersOrDigits("abc") shouldBe Result.OK("abc".toBuffer(), "")
+        lettersOrDigits("1") shouldBe Result.OK("1".toBuffer(), "")
+        lettersOrDigits("12") shouldBe Result.OK("12".toBuffer(), "")
+        lettersOrDigits("123") shouldBe Result.OK("123".toBuffer(), "")
+        lettersOrDigits("123foo") shouldBe Result.OK("123foo".toBuffer(), "")
+        lettersOrDigits("foo") shouldBe Result.OK("foo".toBuffer(), "")
+        lettersOrDigits("a*") shouldBe Result.OK("a".toBuffer(), "*")
         lettersOrDigits("*") shouldBe Result.Err("letters or digits", "*")
     }
 
