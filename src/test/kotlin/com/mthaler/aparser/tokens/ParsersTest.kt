@@ -74,40 +74,40 @@ class ParsersTest: StringSpec({
     }
 
     "number" {
-        number("123") shouldBe Result.OK("123", "")
-        number("123foo") shouldBe Result.OK("123", "foo")
-        number("3.14") shouldBe Result.OK("3.14", "")
-        number("3.14foo") shouldBe Result.OK("3.14", "foo")
+        number("123") shouldBe Result.OK("123".toBuffer(), "")
+        number("123foo") shouldBe Result.OK("123".toBuffer(), "foo")
+        number("3.14") shouldBe Result.OK("3.14".toBuffer(), "")
+        number("3.14foo") shouldBe Result.OK("3.14".toBuffer(), "foo")
         number("foo") shouldBe Result.Err("number", "foo")
         number("foo123") shouldBe Result.Err("number", "foo123")
-        number("10e3") shouldBe Result.OK("10e3", "")
-        number("10E3") shouldBe Result.OK("10E3", "")
+        number("10e3") shouldBe Result.OK("10e3".toBuffer(), "")
+        number("10E3") shouldBe Result.OK("10E3".toBuffer(), "")
     }
 
     "identifier" {
-        identifier("a") shouldBe Result.OK("a", "")
-        identifier("_a") shouldBe Result.OK("_a", "")
-        identifier("a_b") shouldBe Result.OK("a_b", "")
-        identifier("a1") shouldBe Result.OK("a1", "")
-        identifier("a123") shouldBe Result.OK("a123", "")
-        identifier("a bcd") shouldBe Result.OK("a", " bcd")
-        identifier("A") shouldBe Result.OK("A", "")
-        identifier("_A") shouldBe Result.OK("_A", "")
-        identifier("A_B") shouldBe Result.OK("A_B", "")
-        identifier("A1") shouldBe Result.OK("A1", "")
-        identifier("A BCD") shouldBe Result.OK("A", " BCD")
+        identifier("a") shouldBe Result.OK("a".toBuffer(), "")
+        identifier("_a") shouldBe Result.OK("_a".toBuffer(), "")
+        identifier("a_b") shouldBe Result.OK("a_b".toBuffer(), "")
+        identifier("a1") shouldBe Result.OK("a1".toBuffer(), "")
+        identifier("a123") shouldBe Result.OK("a123".toBuffer(), "")
+        identifier("a bcd") shouldBe Result.OK("a".toBuffer(), " bcd")
+        identifier("A") shouldBe Result.OK("A".toBuffer(), "")
+        identifier("_A") shouldBe Result.OK("_A".toBuffer(), "")
+        identifier("A_B") shouldBe Result.OK("A_B".toBuffer(), "")
+        identifier("A1") shouldBe Result.OK("A1".toBuffer(), "")
+        identifier("A BCD") shouldBe Result.OK("A".toBuffer(), " BCD")
     }
 
     "sequence" {
         val p = sequence(digits, stringLiteral("foo"))
-        p("123foo") shouldBe Result.OK(Pair("123", "foo"), "")
+        p("123foo") shouldBe Result.OK(Pair("123".toBuffer(), "foo".toBuffer()), "")
         p("123") shouldBe Result.Err("'foo'", "")
         p("123bar") shouldBe Result.Err("'foo'", "bar")
     }
 
     "and" {
         val p = digits and stringLiteral("foo")
-        p("123foo") shouldBe Result.OK(Pair("123", "foo"), "")
+        p("123foo") shouldBe Result.OK(Pair("123".toBuffer(), "foo".toBuffer()), "")
         p("123") shouldBe Result.Err("'foo'", "")
         p("123bar") shouldBe Result.Err("'foo'", "bar")
     }
