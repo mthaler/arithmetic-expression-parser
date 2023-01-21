@@ -1,6 +1,6 @@
 package com.mthaler.aparser
 
-class Buffer(val text: String) {
+data class Buffer(val text: String) {
 
     fun isEmpty():Boolean = text.isEmpty()
 
