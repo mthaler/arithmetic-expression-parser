@@ -27,7 +27,7 @@ fun <T> orderedChoice(p1: Parser<T>, p2: Parser<T>): Parser<T> = Parser { input 
 fun <T> optional(p: Parser<T>): Parser<T?> = Parser { input ->
     when(val r = p(input)) {
         is Result.OK -> r
-        is Result.Err -> Result.OK(null, input.text)
+        is Result.Err -> Result.OK(null, input.text())
     }
 }
 
@@ -44,7 +44,7 @@ fun <T> zeroOrMore(p: Parser<T>): Parser<List<T>> = Parser { input ->
             is Result.Err -> done = true
         }
     }
-    Result.OK(result, t.text)
+    Result.OK(result, t.text())
 }
 
 fun <T> oneOrMore(p: Parser<T>): Parser<List<T>> = Parser { input ->
@@ -70,7 +70,7 @@ fun <T> oneOrMore(p: Parser<T>): Parser<List<T>> = Parser { input ->
     if (err != null) {
         err
     } else {
-        Result.OK(result, t.text)
+        Result.OK(result, t.text())
     }
 }
 
