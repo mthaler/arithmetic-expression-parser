@@ -42,35 +42,35 @@ class ParsersTest: StringSpec({
     }
 
     "digits" {
-        digits("1") shouldBe Result.OK("1", "")
-        digits("12") shouldBe Result.OK("12", "")
-        digits("123") shouldBe Result.OK("123", "")
-        digits("123foo") shouldBe Result.OK("123", "foo")
+        digits("1") shouldBe Result.OK("1".toBuffer(), "")
+        digits("12") shouldBe Result.OK("12".toBuffer(), "")
+        digits("123") shouldBe Result.OK("123".toBuffer(), "")
+        digits("123foo") shouldBe Result.OK("123".toBuffer(), "foo")
         digits("foo") shouldBe Result.Err("digits", "foo")
     }
 
     "lowerCaseLetters" {
         lowerCaseLetters("") shouldBe Result.Err("lower case letters", "")
-        lowerCaseLetters("a") shouldBe Result.OK("a", "")
+        lowerCaseLetters("a") shouldBe Result.OK("a".toBuffer(), "")
         lowerCaseLetters("A") shouldBe Result.Err("lower case letters", "A")
         lowerCaseLetters("1") shouldBe Result.Err("lower case letters", "1")
-        lowerCaseLetters("abc") shouldBe Result.OK("abc", "")
-        lowerCaseLetters("abC") shouldBe Result.OK("ab", "C")
-        lowerCaseLetters("aBc") shouldBe Result.OK("a", "Bc")
-        lowerCaseLetters("ab1") shouldBe Result.OK("ab", "1")
-        lowerCaseLetters("a1c") shouldBe Result.OK("a", "1c")
+        lowerCaseLetters("abc") shouldBe Result.OK("abc".toBuffer(), "")
+        lowerCaseLetters("abC") shouldBe Result.OK("ab".toBuffer(), "C")
+        lowerCaseLetters("aBc") shouldBe Result.OK("a".toBuffer(), "Bc")
+        lowerCaseLetters("ab1") shouldBe Result.OK("ab".toBuffer(), "1")
+        lowerCaseLetters("a1c") shouldBe Result.OK("a".toBuffer(), "1c")
     }
 
     "upperCaseLetters" {
         upperCaseLetters("") shouldBe Result.Err("upper case letters", "")
-        upperCaseLetters("A") shouldBe Result.OK("A", "")
+        upperCaseLetters("A") shouldBe Result.OK("A".toBuffer(), "")
         upperCaseLetters("a") shouldBe Result.Err("upper case letters", "a")
         upperCaseLetters("1") shouldBe Result.Err("upper case letters", "1")
-        upperCaseLetters("ABC") shouldBe Result.OK("ABC", "")
-        upperCaseLetters("ABc") shouldBe Result.OK("AB", "c")
-        upperCaseLetters("AbC") shouldBe Result.OK("A", "bC")
-        upperCaseLetters("AB1") shouldBe Result.OK("AB", "1")
-        upperCaseLetters("A1C") shouldBe Result.OK("A", "1C")
+        upperCaseLetters("ABC") shouldBe Result.OK("ABC".toBuffer(), "")
+        upperCaseLetters("ABc") shouldBe Result.OK("AB".toBuffer(), "c")
+        upperCaseLetters("AbC") shouldBe Result.OK("A".toBuffer(), "bC")
+        upperCaseLetters("AB1") shouldBe Result.OK("AB".toBuffer(), "1")
+        upperCaseLetters("A1C") shouldBe Result.OK("A".toBuffer(), "1C")
     }
 
     "number" {
