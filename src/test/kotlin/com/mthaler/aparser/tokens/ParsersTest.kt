@@ -128,9 +128,9 @@ class ParsersTest: StringSpec({
 
     "optional" {
         val p = optional(stringLiteral("foo"))
-        p("foo") shouldBe Result.OK("foo", "")
+        p("foo") shouldBe Result.OK("foo".toBuffer(), "")
         p("bar") shouldBe Result.OK(null, "bar")
-        p("foobar") shouldBe Result.OK("foo", "bar")
+        p("foobar") shouldBe Result.OK("foo".toBuffer(), "bar")
     }
 
     "zeroOrMore" {
