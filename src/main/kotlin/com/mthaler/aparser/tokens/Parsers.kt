@@ -32,7 +32,7 @@ val whitespaces = object : TokenParser {
         } else {
             val sb = StringBuffer()
             sb.append(input.text[0])
-            for (i in 1 until input.text.length) {
+            for (i in 1 until input.length()) {
                 val c = input.text[i]
                 if (c.isWhitespace())
                     sb.append(c)
@@ -54,7 +54,7 @@ val lettersOrDigits = object : TokenParser {
         } else {
             val sb = StringBuffer()
             sb.append(input.text[0])
-            for (i in 1 until input.text.length) {
+            for (i in 1 until input.length()) {
                 val c = input.text[i]
                 if (c.isLetterOrDigit())
                     sb.append(c)
@@ -76,7 +76,7 @@ val digits = object : TokenParser {
         } else {
             val sb = StringBuffer()
             sb.append(input.text[0])
-            for (i in 1 until input.text.length) {
+            for (i in 1 until input.length()) {
                 val c = input.text[i]
                 if (c.isDigit())
                     sb.append(c)
@@ -98,7 +98,7 @@ val lowerCaseLetters = object : TokenParser {
         } else {
             val sb = StringBuffer()
             sb.append(input.text[0])
-            for (i in 1 until input.text.length) {
+            for (i in 1 until input.length()) {
                 val c = input.text[i]
                 if (c.isLowerCase())
                     sb.append(c)
@@ -120,7 +120,7 @@ val upperCaseLetters = object : TokenParser {
         } else {
             val sb = StringBuffer()
             sb.append(input.text[0])
-            for (i in 1 until input.text.length) {
+            for (i in 1 until input.length()) {
                 val c = input.text[i]
                 if (c.isUpperCase())
                     sb.append(c)
@@ -158,7 +158,7 @@ val identifier = object : TokenParser {
         } else {
             val sb = StringBuffer()
             sb.append(input.text[0])
-            for (i in 1 until input.text.length) {
+            for (i in 1 until input.length()) {
                 val c = input.text[i]
                 if (c.isLetterOrDigit() || c == '_')
                     sb.append(c)
