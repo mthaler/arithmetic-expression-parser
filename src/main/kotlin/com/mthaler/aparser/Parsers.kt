@@ -4,15 +4,15 @@ import com.mthaler.aparser.util.Result
 
 fun interface Parser<T> {
 
-    fun parse(input: String): Result<T>
+    fun parse(input: Buffer): Result<T>
 
-    operator fun invoke(input: String): Result<T> = parse(input)
+    operator fun invoke(input: Buffer): Result<T> = parse(input)
 }
 
 // combinators
 
 fun <T1, T2> sequence(p1: Parser<T1>, p2: Parser<T2>): Parser<Pair<T1, T2>> = Parser { input ->
-    p1(input).flatMap { r1, rest -> p2(rest).map { r2 -> Pair(r1, r2) } }
+    p1(input).flatMap { r1, rest -> p2(Buffer(rest)).map { r2 -> Pair(r1, r2) } }
 }
 
 fun <T> orderedChoice(p1: Parser<T>, p2: Parser<T>): Parser<T> = Parser { input ->
@@ -25,7 +25,7 @@ fun <T> orderedChoice(p1: Parser<T>, p2: Parser<T>): Parser<T> = Parser { input 
 fun <T> optional(p: Parser<T>): Parser<T?> = Parser { input ->
     when(val r = p(input)) {
         is Result.OK -> r
-        is Result.Err -> Result.OK(null, input)
+        is Result.Err -> Result.OK(null, input.text)
     }
 }
 
@@ -37,12 +37,12 @@ fun <T> zeroOrMore(p: Parser<T>): Parser<List<T>> = Parser { input ->
         when(val r = p(t)) {
             is Result.OK -> {
                 result.add(r.value)
-                t = r.rest
+                t = Buffer(r.rest)
             }
             is Result.Err -> done = true
         }
     }
-    Result.OK(result, t)
+    Result.OK(result, t.text)
 }
 
 fun <T> oneOrMore(p: Parser<T>): Parser<List<T>> = Parser { input ->
@@ -56,7 +56,7 @@ fun <T> oneOrMore(p: Parser<T>): Parser<List<T>> = Parser { input ->
         when (val r = p(t)) {
             is Result.OK -> {
                 result.add(r.value)
-                t = r.rest
+                t = Buffer(r.rest)
             }
             is Result.Err -> {
                 if (result.isEmpty())
@@ -68,7 +68,7 @@ fun <T> oneOrMore(p: Parser<T>): Parser<List<T>> = Parser { input ->
     if (err != null) {
         err
     } else {
-        Result.OK(result, t)
+        Result.OK(result, t.text)
     }
 }
 
