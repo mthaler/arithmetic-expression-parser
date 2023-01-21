@@ -68,20 +68,20 @@ val lettersOrDigits = object : TokenParser {
 
 val digits = object : TokenParser {
 
-    override fun parse(input: String): Result<Buffer> {
-        if (input.isEmpty()) {
-            return Result.Err("digits", input)
-        } else if (!input[0].isDigit()) {
-            return Result.Err("digits", input)
+    override fun parse(input: Buffer): Result<Buffer> {
+        if (input.text.isEmpty()) {
+            return Result.Err("digits", input.text)
+        } else if (!input.text[0].isDigit()) {
+            return Result.Err("digits", input.text)
         } else {
             val sb = StringBuffer()
-            sb.append(input[0])
-            for (i in 1 until input.length) {
-                val c = input[i]
+            sb.append(input.text[0])
+            for (i in 1 until input.text.length) {
+                val c = input.text[i]
                 if (c.isDigit())
                     sb.append(c)
                 else
-                    return Result.OK(Buffer(sb.toString()), input.substring(i))
+                    return Result.OK(Buffer(sb.toString()), input.text.substring(i))
             }
             return Result.OK(Buffer(sb.toString()), "")
         }
@@ -90,20 +90,20 @@ val digits = object : TokenParser {
 
 val lowerCaseLetters = object : TokenParser {
 
-    override fun parse(input: String): Result<Buffer> {
-        if (input.isEmpty()) {
-            return Result.Err("lower case letters", input)
-        } else if (!input[0].isLowerCase()) {
-            return Result.Err("lower case letters", input)
+    override fun parse(input: Buffer): Result<Buffer> {
+        if (input.text.isEmpty()) {
+            return Result.Err("lower case letters", input.text)
+        } else if (!input.text[0].isLowerCase()) {
+            return Result.Err("lower case letters", input.text)
         } else {
             val sb = StringBuffer()
-            sb.append(input[0])
-            for (i in 1 until input.length) {
-                val c = input[i]
+            sb.append(input.text[0])
+            for (i in 1 until input.text.length) {
+                val c = input.text[i]
                 if (c.isLowerCase())
                     sb.append(c)
                 else
-                    return Result.OK(Buffer(sb.toString()), input.substring(i))
+                    return Result.OK(Buffer(sb.toString()), input.text.substring(i))
             }
             return Result.OK(Buffer(sb.toString()), "")
         }
@@ -112,20 +112,20 @@ val lowerCaseLetters = object : TokenParser {
 
 val upperCaseLetters = object : TokenParser {
 
-    override fun parse(input: String): Result<Buffer> {
-        if (input.isEmpty()) {
-            return Result.Err("upper case letters", input)
-        } else if (!input[0].isUpperCase()) {
-            return Result.Err("upper case letters", input)
+    override fun parse(input: Buffer): Result<Buffer> {
+        if (input.text.isEmpty()) {
+            return Result.Err("upper case letters", input.text)
+        } else if (!input.text[0].isUpperCase()) {
+            return Result.Err("upper case letters", input.text)
         } else {
             val sb = StringBuffer()
-            sb.append(input[0])
-            for (i in 1 until input.length) {
-                val c = input[i]
+            sb.append(input.text[0])
+            for (i in 1 until input.text.length) {
+                val c = input.text[i]
                 if (c.isUpperCase())
                     sb.append(c)
                 else
-                    return Result.OK(Buffer(sb.toString()), input.substring(i))
+                    return Result.OK(Buffer(sb.toString()), input.text.substring(i))
             }
             return Result.OK(Buffer(sb.toString()), "")
         }
@@ -134,15 +134,15 @@ val upperCaseLetters = object : TokenParser {
 
 val number = object : TokenParser {
 
-    override fun parse(input: String): Result<Buffer> {
-        if (input.isEmpty()) {
-            return Result.Err("number", input)
+    override fun parse(input: Buffer): Result<Buffer> {
+        if (input.text.isEmpty()) {
+            return Result.Err("number", input.text)
         } else {
-            val m = numberRegex.find(input)
+            val m = numberRegex.find(input.text)
             if (m != null) {
-                return Result.OK(Buffer(m.value), input.substring(m.range.endInclusive + 1))
+                return Result.OK(Buffer(m.value), input.text.substring(m.range.endInclusive + 1))
             } else {
-                return Result.Err("number", input)
+                return Result.Err("number", input.text)
             }
         }
     }
@@ -150,20 +150,20 @@ val number = object : TokenParser {
 
 val identifier = object : TokenParser {
 
-    override fun parse(input: String): Result<Buffer> {
-        if (input.isEmpty()) {
-            return Result.Err("identifier", input)
-        } else if (!(input[0].isLetter() || input[0] == '_')) {
-            return Result.Err("identifier", input)
+    override fun parse(input: Buffer): Result<Buffer> {
+        if (input.text.isEmpty()) {
+            return Result.Err("identifier", input.text)
+        } else if (!(input.text[0].isLetter() || input.text[0] == '_')) {
+            return Result.Err("identifier", input.text)
         } else {
             val sb = StringBuffer()
-            sb.append(input[0])
-            for (i in 1 until input.length) {
-                val c = input[i]
+            sb.append(input.text[0])
+            for (i in 1 until input.text.length) {
+                val c = input.text[i]
                 if (c.isLetterOrDigit() || c == '_')
                     sb.append(c)
                 else
-                    return Result.OK(Buffer(sb.toString()), input.substring(i))
+                    return Result.OK(Buffer(sb.toString()), input.text.substring(i))
             }
             return Result.OK(Buffer(sb.toString()), "")
         }
