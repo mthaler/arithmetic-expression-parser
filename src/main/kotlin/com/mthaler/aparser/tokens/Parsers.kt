@@ -27,13 +27,13 @@ val whitespaces = object : TokenParser {
     override fun parse(input: Buffer): Result<Buffer> {
         if (input.isEmpty()) {
             return Result.Err("whitespaces", input.text())
-        } else if (!input.text()[0].isWhitespace()) {
+        } else if (!input[0].isWhitespace()) {
             return Result.Err("whitespaces", input.text())
         } else {
             val sb = StringBuffer()
-            sb.append(input.text()[0])
+            sb.append(input[0])
             for (i in 1 until input.length()) {
-                val c = input.text()[i]
+                val c = input[i]
                 if (c.isWhitespace())
                     sb.append(c)
                 else
@@ -49,13 +49,13 @@ val lettersOrDigits = object : TokenParser {
     override fun parse(input: Buffer): Result<Buffer> {
         if (input.isEmpty()) {
             return Result.Err("letters or digits", input.text())
-        } else if (!input.text()[0].isLetterOrDigit()) {
+        } else if (!input[0].isLetterOrDigit()) {
             return Result.Err("letters or digits", input.text())
         } else {
             val sb = StringBuffer()
-            sb.append(input.text()[0])
+            sb.append(input[0])
             for (i in 1 until input.length()) {
-                val c = input.text()[i]
+                val c = input[i]
                 if (c.isLetterOrDigit())
                     sb.append(c)
                 else
@@ -71,13 +71,13 @@ val digits = object : TokenParser {
     override fun parse(input: Buffer): Result<Buffer> {
         if (input.isEmpty()) {
             return Result.Err("digits", input.text())
-        } else if (!input.text()[0].isDigit()) {
+        } else if (!input[0].isDigit()) {
             return Result.Err("digits", input.text())
         } else {
             val sb = StringBuffer()
-            sb.append(input.text()[0])
+            sb.append(input[0])
             for (i in 1 until input.length()) {
-                val c = input.text()[i]
+                val c = input[i]
                 if (c.isDigit())
                     sb.append(c)
                 else
@@ -93,13 +93,13 @@ val lowerCaseLetters = object : TokenParser {
     override fun parse(input: Buffer): Result<Buffer> {
         if (input.isEmpty()) {
             return Result.Err("lower case letters", input.text())
-        } else if (!input.text()[0].isLowerCase()) {
+        } else if (!input[0].isLowerCase()) {
             return Result.Err("lower case letters", input.text())
         } else {
             val sb = StringBuffer()
-            sb.append(input.text()[0])
+            sb.append(input[0])
             for (i in 1 until input.length()) {
-                val c = input.text()[i]
+                val c = input[i]
                 if (c.isLowerCase())
                     sb.append(c)
                 else
@@ -115,13 +115,13 @@ val upperCaseLetters = object : TokenParser {
     override fun parse(input: Buffer): Result<Buffer> {
         if (input.isEmpty()) {
             return Result.Err("upper case letters", input.text())
-        } else if (!input.text()[0].isUpperCase()) {
+        } else if (!input[0].isUpperCase()) {
             return Result.Err("upper case letters", input.text())
         } else {
             val sb = StringBuffer()
-            sb.append(input.text()[0])
+            sb.append(input[0])
             for (i in 1 until input.length()) {
-                val c = input.text()[i]
+                val c = input[i]
                 if (c.isUpperCase())
                     sb.append(c)
                 else
@@ -153,13 +153,13 @@ val identifier = object : TokenParser {
     override fun parse(input: Buffer): Result<Buffer> {
         if (input.isEmpty()) {
             return Result.Err("identifier", input.text())
-        } else if (!(input.text()[0].isLetter() || input.text()[0] == '_')) {
+        } else if (!(input[0].isLetter() || input[0] == '_')) {
             return Result.Err("identifier", input.text())
         } else {
             val sb = StringBuffer()
-            sb.append(input.text()[0])
+            sb.append(input[0])
             for (i in 1 until input.length()) {
-                val c = input.text()[i]
+                val c = input[i]
                 if (c.isLetterOrDigit() || c == '_')
                     sb.append(c)
                 else
