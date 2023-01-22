@@ -12,6 +12,8 @@ data class Buffer(val t: String?) {
 
     fun substring(startIndex: Int): String = text().substring(startIndex)
 
+    operator fun get(index: Int): Char = text()[index]
+
     fun text(): String {
         return if (t != null) {
             return t
