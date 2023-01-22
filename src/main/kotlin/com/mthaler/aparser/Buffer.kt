@@ -9,6 +9,9 @@ data class Buffer(val t: String?) {
     fun startsWith(prefix: String): Boolean = text().startsWith(prefix)
 
     fun startsWith(char: Char): Boolean = text().startsWith(char)
+
+    fun substring(startIndex: Int): String = text().substring(startIndex)
+
     fun text(): String {
         return if (t != null) {
             return t
