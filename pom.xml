@@ -17,15 +17,9 @@
     
     <dependencies>
         <dependency>
-            <groupId>group-a</groupId>
-            <artifactId>artifact-b</artifactId>
-            <version>1.0</version>
-            <type>bar</type>
-            <scope>runtime</scope>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+            <version>1.8.0</version>
         </dependency>
     </dependencies>
-    <build>
-        <pluginManagement>
-        </pluginManagement>
-    </build>
 </project>
