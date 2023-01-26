@@ -100,13 +100,15 @@
             <groupId>io.kotest</groupId>
             <artifactId>kotest-runner-junit5</artifactId>
             <version>4.3.2</version>
+            <type>pom</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.kotest</groupId>
             <artifactId>kotest-assertions-core</artifactId>
             <version>4.3.2</version>
-            <scope>test</scope>
+            <type>pom</type>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 </project>
