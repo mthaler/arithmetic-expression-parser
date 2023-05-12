@@ -20,11 +20,7 @@ test {
 }
 
 kotlin {
-    jvmToolchain(11)
-}
-
-application {
-    mainClassName = 'MainKt'
+    jvmToolchain(8)
 }
 
 dependencies {
