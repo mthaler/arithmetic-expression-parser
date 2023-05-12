@@ -1,11 +1,6 @@
 plugins {
-    // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
-    id 'org.jetbrains.kotlin.jvm' version '1.4.32'
-
-    // Apply the java-library plugin for API and implementation separation.
+    id 'org.jetbrains.kotlin.jvm' version '1.8.0'
     id 'java-library'
-
-    id 'maven-publish'
 }
 
 repositories {
@@ -16,30 +11,21 @@ repositories {
 group 'com.mthaler'
 version '0.5.0'
 
+repositories {
+    mavenCentral()
+}
+
 test {
     useJUnitPlatform()
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+kotlin {
+    jvmToolchain(11)
 }
 
-java {
-    withJavadocJar()
-    withSourcesJar()
+application {
+    mainClassName = 'MainKt'
 }
-
-ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
-
-
-javadoc {
-    if(JavaVersion.current().isJava9Compatible()) {
-        options.addBooleanOption('html5', true)
-    }
-}
-
 
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib'
