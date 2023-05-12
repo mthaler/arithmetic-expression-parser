@@ -3,19 +3,20 @@ package com.mthaler.aparser.tokens
 import com.mthaler.aparser.Buffer
 import com.mthaler.aparser.Parser
 import com.mthaler.aparser.util.Result
+import java.util.BitSet
 
 fun interface TokenParser: Parser<Buffer>
 
 val numberRegex = Regex("^\\d+(\\.\\d*)?([eE][+-]?\\d+)?")
 
-fun charLiteral(c: Char) = TokenParser { input ->
+fun charLiteral(c: Char) = Parser<Buffer> { input ->
     if (input.startsWith(c))
         Result.OK(Buffer(c.toString()), input.substring(1))
     else
         Result.Err("'$c'", input.text())
 }
 
-fun stringLiteral(s: String) = TokenParser { input ->
+fun stringLiteral(s: String) = Parser<Buffer> { input ->
     if (input.startsWith(s))
         Result.OK(Buffer(s), input.substring(s.length))
     else
