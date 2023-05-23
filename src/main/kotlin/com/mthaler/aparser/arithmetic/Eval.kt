@@ -2,7 +2,6 @@ package com.mthaler.aparser.arithmetic
 
 import com.mthaler.aparser.util.ParseException
 import com.mthaler.aparser.util.Result
-import com.mthaler.aparser.util.Try
 import java.lang.IllegalArgumentException
 import kotlin.math.*
 
@@ -14,9 +13,9 @@ fun Result<Expr>.eval(context: Context = Context.Empty): Result<Double> = map { 
 /**
  * Evaluates the given expression. This method will return a try, it will not throw an exception if the expression cannot be evaluated
  */
-fun Result<Expr>.tryEval(context: Context = Context.Empty): Try<Double> = when(this) {
-    is Result.OK -> Try { eval(this.value, context) }
-    is Result.Err -> Try.Failure(ParseException(this.expected, this.input))
+fun Result<Expr>.tryEval(context: Context = Context.Empty): kotlin.Result<Double> = when(this) {
+    is Result.OK -> runCatching { eval(this.value, context) }
+    is Result.Err -> kotlin.Result.failure(ParseException(this.expected, this.input))
 }
 
 /**

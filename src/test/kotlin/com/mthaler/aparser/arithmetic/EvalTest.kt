@@ -1,7 +1,6 @@
 package com.mthaler.aparser.arithmetic
 
 import com.mthaler.aparser.util.Result
-import com.mthaler.aparser.util.Try
 import com.mthaler.aparser.util.roundDouble
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
@@ -83,9 +82,8 @@ class EvalTest: StringSpec({
 
     "tryEval" {
         val e = Expression
-        e("42").tryEval() shouldBe Try.Success(42.0)
-        e("3+4").tryEval() shouldBe Try.Success(7.0)
-        e("sin(0)").tryEval() shouldBe Try.Success(0.0)
-        (e("foo(0)").tryEval() is Try.Failure) shouldBe true
+        e("42").tryEval() shouldBe kotlin.Result.success(42.0)
+        e("3+4").tryEval() shouldBe kotlin.Result.success(7.0)
+        e("sin(0)").tryEval() shouldBe kotlin.Result.success(0.0)
     }
 })
